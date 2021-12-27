@@ -21,7 +21,7 @@ import org.springframework.context.annotation.Configuration;
         info = @Info(
                 title = "REST API documentation",
                 version = "1.0",
-                description = "This system is for deciding where to dine",
+                description = "This system voting is for deciding where to dine",
                 contact = @Contact(url = "https://www.linkedin.com/in/igor-strelchenya",
                         name = "Igor Strelchenya", email = "igor.v.strelchenya@gmail.com")
         ),
