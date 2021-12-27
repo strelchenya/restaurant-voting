@@ -14,7 +14,7 @@
     <version>1.0.0</version>
 
     <name>Restaurant Voting Application</name>
-    <description>This voting system for deciding where to have lunch</description>
+    <description>This system is for deciding where to dine</description>
     <url>https://github.com/strelchenya</url>
 
     <properties>
