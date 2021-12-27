@@ -1,5 +1,7 @@
 # Voting for restaurants
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/6d5ec17aa3b64362a59eb996d84d987a)](https://app.codacy.com/gh/strelchenya/restaurant-voting?utm_source=github.com&utm_medium=referral&utm_content=strelchenya/restaurant-voting&utm_campaign=Badge_Grade_Settings)
+
 ###### This system voting is for deciding where to dine.
 
 -------------------------------------------------------------
