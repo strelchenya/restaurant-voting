@@ -39,3 +39,4 @@ mvnw.cmd
 
 ### Other ###
 .gitattributes
+*.sql
