@@ -1,6 +1,5 @@
 package com.strelchenya.restaurantvoting.model;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.strelchenya.restaurantvoting.HasId;
 import io.swagger.v3.oas.annotations.media.Schema;

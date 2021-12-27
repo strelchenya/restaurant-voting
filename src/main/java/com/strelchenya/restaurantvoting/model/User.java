@@ -1,6 +1,7 @@
 package com.strelchenya.restaurantvoting.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.strelchenya.restaurantvoting.HasIdAndEmail;
 import com.strelchenya.restaurantvoting.util.validation.NoHtml;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;

@@ -1,6 +1,6 @@
 package com.strelchenya.restaurantvoting.to;
 
-import com.strelchenya.restaurantvoting.model.HasIdAndEmail;
+import com.strelchenya.restaurantvoting.HasIdAndEmail;
 import com.strelchenya.restaurantvoting.util.validation.NoHtml;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;

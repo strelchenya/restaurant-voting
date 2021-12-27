@@ -1,6 +1,6 @@
 package com.strelchenya.restaurantvoting.web.user;
 
-import com.strelchenya.restaurantvoting.model.HasIdAndEmail;
+import com.strelchenya.restaurantvoting.HasIdAndEmail;
 import com.strelchenya.restaurantvoting.repository.UserRepository;
 import com.strelchenya.restaurantvoting.web.GlobalExceptionHandler;
 import com.strelchenya.restaurantvoting.web.SecurityUtil;
