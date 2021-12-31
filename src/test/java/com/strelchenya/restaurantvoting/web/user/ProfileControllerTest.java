@@ -1,7 +1,7 @@
 package com.strelchenya.restaurantvoting.web.user;
 
 import com.strelchenya.restaurantvoting.model.User;
-import com.strelchenya.restaurantvoting.repository.UserRepository;
+import com.strelchenya.restaurantvoting.repository.user.UserRepository;
 import com.strelchenya.restaurantvoting.to.UserTo;
 import com.strelchenya.restaurantvoting.util.JsonUtil;
 import com.strelchenya.restaurantvoting.util.UserUtil;

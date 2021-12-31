@@ -1,6 +1,7 @@
-package com.strelchenya.restaurantvoting.repository;
+package com.strelchenya.restaurantvoting.repository.user;
 
 import com.strelchenya.restaurantvoting.model.User;
+import com.strelchenya.restaurantvoting.repository.BaseRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
