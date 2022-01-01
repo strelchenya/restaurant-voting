@@ -38,6 +38,15 @@ public class Restaurant extends BaseEntity {
     @JsonManagedReference
     private List<Vote> votes;
 
+    public Restaurant(Restaurant restaurant) {
+        this(restaurant.getId(), restaurant.getTitle());
+    }
+
+    public Restaurant(Integer id, String title) {
+        super(id);
+        this.title = title;
+    }
+
     @Override
     public String toString() {
         return "Restaurant{" +

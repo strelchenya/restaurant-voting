@@ -45,6 +45,18 @@ public class Dish extends BaseEntity {
     @NotNull
     private Restaurant restaurant;
 
+    public Dish(Dish dish) {
+        this(dish.getId(), dish.getTitle(), dish.getPrice(), dish.getLocalDate(), dish.getRestaurant());
+    }
+
+    public Dish(Integer id, String title, Integer price, LocalDate localDate, Restaurant restaurant) {
+        super(id);
+        this.title = title;
+        this.price = price;
+        this.localDate = localDate;
+        this.restaurant = restaurant;
+    }
+
     @Override
     public String toString() {
         return getClass().getSimpleName() + "(" +
