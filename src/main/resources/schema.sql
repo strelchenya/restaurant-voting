@@ -18,10 +18,9 @@ CREATE TABLE dish
     price         INTEGER            NOT NULL,
     title         VARCHAR(255)       NOT NULL,
     restaurant_id INTEGER            NOT NULL,
-    FOREIGN KEY (restaurant_id) REFERENCES restaurant (id) ON DELETE CASCADE,
-    CONSTRAINT dish_unique_restaurant_title_date_idx UNIQUE (restaurant_id, title, local_date)
+    FOREIGN KEY (restaurant_id) REFERENCES restaurant (id) ON DELETE CASCADE
 );
-CREATE INDEX dish_date_idx ON dish (local_date);
+CREATE UNIQUE INDEX dish_unique_restaurant_title_idx ON dish (restaurant_id, title);
 
 CREATE TABLE users
 (
@@ -45,10 +44,12 @@ CREATE TABLE user_roles
 CREATE TABLE vote
 (
     id            INTEGER AUTO_INCREMENT PRIMARY KEY,
-    local_date    DATE DEFAULT NOW() NOT NULL,
-    restaurant_id INTEGER            NOT NULL,
-    user_id       INTEGER            NOT NULL,
+    local_date    DATE    NOT NULL DEFAULT CURRENT_DATE ON UPDATE CURRENT_DATE,
+    local_time    TIME    NOT NULL DEFAULT CURRENT_TIME ON UPDATE CURRENT_TIME,
+    restaurant_id INTEGER NOT NULL,
+    user_id       INTEGER NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
-    FOREIGN KEY (restaurant_id) REFERENCES restaurant (id) ON DELETE CASCADE
+    FOREIGN KEY (restaurant_id) REFERENCES restaurant (id) ON DELETE CASCADE,
+    CONSTRAINT END_OF_VOTING_TIME CHECK (EXTRACT(HOUR FROM local_time) < 11)
 );
 CREATE UNIQUE INDEX vote_unique_user_date_idx ON vote (user_id, local_date);

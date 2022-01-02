@@ -1,7 +1,7 @@
 package com.strelchenya.restaurantvoting.web.user;
 
 import com.strelchenya.restaurantvoting.model.User;
-import com.strelchenya.restaurantvoting.repository.user.UserRepository;
+import com.strelchenya.restaurantvoting.repository.UserRepository;
 import com.strelchenya.restaurantvoting.util.UserUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

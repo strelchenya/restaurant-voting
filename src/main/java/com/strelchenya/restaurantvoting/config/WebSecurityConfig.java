@@ -2,7 +2,7 @@ package com.strelchenya.restaurantvoting.config;
 
 import com.strelchenya.restaurantvoting.model.Role;
 import com.strelchenya.restaurantvoting.model.User;
-import com.strelchenya.restaurantvoting.repository.user.UserRepository;
+import com.strelchenya.restaurantvoting.repository.UserRepository;
 import com.strelchenya.restaurantvoting.web.AuthUser;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

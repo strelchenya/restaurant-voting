@@ -1,9 +1,9 @@
-package com.strelchenya.restaurantvoting.repository.restaurant;
+package com.strelchenya.restaurantvoting.service;
 
 import com.strelchenya.restaurantvoting.model.Restaurant;
+import com.strelchenya.restaurantvoting.repository.RestaurantRepository;
 import com.strelchenya.restaurantvoting.to.RestaurantTo;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.time.LocalDate;
@@ -12,12 +12,12 @@ import java.util.Optional;
 
 import static com.strelchenya.restaurantvoting.util.validation.ValidationUtil.checkNotFoundWithId;
 
-@Repository
-public class RestaurantRepositoryImpl {
+@Service
+public class RestaurantService {
 
     private final RestaurantRepository restaurantRepository;
 
-    public RestaurantRepositoryImpl(@Lazy RestaurantRepository restaurantRepository) {
+    public RestaurantService(RestaurantRepository restaurantRepository) {
         this.restaurantRepository = restaurantRepository;
     }
 

@@ -1,7 +1,7 @@
 package com.strelchenya.restaurantvoting.web.restaurant;
 
 import com.strelchenya.restaurantvoting.model.Restaurant;
-import com.strelchenya.restaurantvoting.repository.restaurant.RestaurantRepositoryImpl;
+import com.strelchenya.restaurantvoting.service.RestaurantService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -23,9 +23,9 @@ import static com.strelchenya.restaurantvoting.util.validation.ValidationUtil.as
 public class AdminRestaurantController {
     public static final String ADMIN_RESTAURANT_REST_URL = "/api/admin/restaurants";
 
-    private final RestaurantRepositoryImpl restaurantRepository;
+    private final RestaurantService restaurantRepository;
 
-    public AdminRestaurantController(RestaurantRepositoryImpl restaurantRepository) {
+    public AdminRestaurantController(RestaurantService restaurantRepository) {
         this.restaurantRepository = restaurantRepository;
     }
 

@@ -1,11 +1,9 @@
 package com.strelchenya.restaurantvoting.web.dish;
 
 import com.strelchenya.restaurantvoting.model.Dish;
-import com.strelchenya.restaurantvoting.repository.dish.DishRepositoryImpl;
+import com.strelchenya.restaurantvoting.service.DishService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -26,9 +24,9 @@ import static com.strelchenya.restaurantvoting.web.restaurant.AdminRestaurantCon
 public class AdminDishController {
     public static final String DISHES_REST_URL = "/{restaurantId}/dishes";
 
-    private final DishRepositoryImpl dishRepository;
+    private final DishService dishRepository;
 
-    public AdminDishController(DishRepositoryImpl dishRepository) {
+    public AdminDishController(DishService dishRepository) {
         this.dishRepository = dishRepository;
     }
 

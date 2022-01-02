@@ -1,6 +1,6 @@
 package com.strelchenya.restaurantvoting.web.restaurant;
 
-import com.strelchenya.restaurantvoting.repository.restaurant.RestaurantRepositoryImpl;
+import com.strelchenya.restaurantvoting.service.RestaurantService;
 import com.strelchenya.restaurantvoting.to.RestaurantTo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheConfig;
@@ -21,9 +21,9 @@ import java.util.List;
 public class UserRestaurantController {
     public static final String RESTAURANTS_REST_URL = "/api/restaurants";
 
-    private final RestaurantRepositoryImpl restaurantRepository;
+    private final RestaurantService restaurantRepository;
 
-    public UserRestaurantController(RestaurantRepositoryImpl restaurantRepository) {
+    public UserRestaurantController(RestaurantService restaurantRepository) {
         this.restaurantRepository = restaurantRepository;
     }
 

@@ -1,9 +1,8 @@
 package com.strelchenya.restaurantvoting.web.dish;
 
 import com.strelchenya.restaurantvoting.model.Dish;
-import com.strelchenya.restaurantvoting.repository.dish.DishRepositoryImpl;
+import com.strelchenya.restaurantvoting.service.DishService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,9 +16,9 @@ import static com.strelchenya.restaurantvoting.web.restaurant.UserRestaurantCont
 @RestController
 @RequestMapping(value = RESTAURANTS_REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserDishController {
-    private final DishRepositoryImpl dishRepository;
+    private final DishService dishRepository;
 
-    public UserDishController(DishRepositoryImpl dishRepository) {
+    public UserDishController(DishService dishRepository) {
         this.dishRepository = dishRepository;
     }
 

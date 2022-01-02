@@ -1,9 +1,9 @@
-package com.strelchenya.restaurantvoting.repository.dish;
+package com.strelchenya.restaurantvoting.service;
 
 import com.strelchenya.restaurantvoting.model.Dish;
-import com.strelchenya.restaurantvoting.repository.restaurant.RestaurantRepository;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Repository;
+import com.strelchenya.restaurantvoting.repository.DishRepository;
+import com.strelchenya.restaurantvoting.repository.RestaurantRepository;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
@@ -12,12 +12,12 @@ import java.util.List;
 
 import static com.strelchenya.restaurantvoting.util.validation.ValidationUtil.checkNotFoundWithId;
 
-@Repository
-public class DishRepositoryImpl {
+@Service
+public class DishService {
     private final DishRepository dishRepository;
     private final RestaurantRepository restaurantRepository;
 
-    public DishRepositoryImpl(@Lazy DishRepository dishRepository, RestaurantRepository restaurantRepository) {
+    public DishService(DishRepository dishRepository, RestaurantRepository restaurantRepository) {
         this.dishRepository = dishRepository;
         this.restaurantRepository = restaurantRepository;
     }

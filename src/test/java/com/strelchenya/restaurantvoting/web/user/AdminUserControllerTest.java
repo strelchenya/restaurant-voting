@@ -2,7 +2,7 @@ package com.strelchenya.restaurantvoting.web.user;
 
 import com.strelchenya.restaurantvoting.model.Role;
 import com.strelchenya.restaurantvoting.model.User;
-import com.strelchenya.restaurantvoting.repository.user.UserRepository;
+import com.strelchenya.restaurantvoting.repository.UserRepository;
 import com.strelchenya.restaurantvoting.web.AbstractControllerTest;
 import com.strelchenya.restaurantvoting.web.GlobalExceptionHandler;
 import org.junit.jupiter.api.Test;
