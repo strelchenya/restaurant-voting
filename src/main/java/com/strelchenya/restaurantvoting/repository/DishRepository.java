@@ -1,7 +1,6 @@
-package com.strelchenya.restaurantvoting.repository.dish;
+package com.strelchenya.restaurantvoting.repository;
 
 import com.strelchenya.restaurantvoting.model.Dish;
-import com.strelchenya.restaurantvoting.repository.BaseRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

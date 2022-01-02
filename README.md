@@ -8,7 +8,7 @@
 - Run: `mvn spring-boot:run` in root directory.
 -----------------------------------------------------
 [REST API documentation](http://localhost:8080/swagger-ui.html)  
-Сredentials for enter:
+Available authorizations:
 ```
 User:  user@yandex.ru / password
 Admin: admin@gmail.com / admin

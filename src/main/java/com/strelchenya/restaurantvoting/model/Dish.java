@@ -15,8 +15,8 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "dish", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "title", "local_date"},
-        name = "dish_unique_restaurant_title_date_idx")})
+@Table(name = "dish", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "title"},
+        name = "dish_unique_restaurant_title_idx")})
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -24,7 +24,7 @@ import java.time.LocalDate;
 public class Dish extends BaseEntity {
 
     @Column(name = "title", nullable = false)
-    @Size(max = 255)
+    @Size(min = 2, max = 255)
     @NotBlank
     @NoHtml
     private String title;
