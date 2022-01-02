@@ -24,23 +24,23 @@ import static com.strelchenya.restaurantvoting.web.restaurant.AdminRestaurantCon
 public class AdminDishController {
     public static final String DISHES_REST_URL = "/{restaurantId}/dishes";
 
-    private final DishService dishRepository;
+    private final DishService dishService;
 
-    public AdminDishController(DishService dishRepository) {
-        this.dishRepository = dishRepository;
+    public AdminDishController(DishService dishService) {
+        this.dishService = dishService;
     }
 
     @GetMapping(value = DISHES_REST_URL + "/{dishId}")
     public Dish get(@PathVariable int dishId, @PathVariable int restaurantId) {
         log.info("get {}", dishId);
-        return dishRepository.get(dishId, restaurantId);
+        return dishService.get(dishId, restaurantId);
     }
 
 //    @Cacheable
     @GetMapping(value = DISHES_REST_URL)
     public List<Dish> getAll(@PathVariable int restaurantId) {
         log.info("get all dishes for restaurant {}", restaurantId);
-        return dishRepository.getAll(restaurantId);
+        return dishService.getAll(restaurantId);
     }
 
 //    @CacheEvict(allEntries = true)
@@ -49,7 +49,7 @@ public class AdminDishController {
         log.info("create dish {} for restaurant {}", dish, restaurantId);
         checkNew(dish);
 
-        Dish created = dishRepository.create(dish, restaurantId);
+        Dish created = dishService.create(dish, restaurantId);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(ADMIN_RESTAURANT_REST_URL + DISHES_REST_URL + "/{dishId}")
                 .buildAndExpand(restaurantId, created.getId()).toUri();
@@ -61,7 +61,7 @@ public class AdminDishController {
     public void update(@RequestBody Dish dish, @PathVariable int dishId, @PathVariable int restaurantId) {
         log.info("update dish {} for restaurant {}", dish, restaurantId);
         assureIdConsistent(dish, dishId);
-        dishRepository.update(dish, restaurantId);
+        dishService.update(dish, restaurantId);
     }
 
     @CacheEvict(allEntries = true)
@@ -69,6 +69,6 @@ public class AdminDishController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int restaurantId, @PathVariable int dishId) {
         log.info("delete dish {} for restaurant {}", dishId, restaurantId);
-        dishRepository.delete(dishId, restaurantId);
+        dishService.delete(dishId, restaurantId);
     }
 }

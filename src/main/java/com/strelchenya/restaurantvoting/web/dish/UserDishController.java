@@ -16,22 +16,22 @@ import static com.strelchenya.restaurantvoting.web.restaurant.UserRestaurantCont
 @RestController
 @RequestMapping(value = RESTAURANTS_REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserDishController {
-    private final DishService dishRepository;
+    private final DishService dishService;
 
-    public UserDishController(DishService dishRepository) {
-        this.dishRepository = dishRepository;
+    public UserDishController(DishService dishService) {
+        this.dishService = dishService;
     }
 
     @GetMapping(value = DISHES_REST_URL + "/{dishId}")
     public Dish get(@PathVariable int dishId, @PathVariable int restaurantId) {
         log.info("get dish {} for restaurant {}", dishId, restaurantId);
-        return dishRepository.get(dishId, restaurantId);
+        return dishService.get(dishId, restaurantId);
     }
 
 //    @Cacheable(cacheNames = "dishes")
     @GetMapping(value = DISHES_REST_URL + "/by")
     public List<Dish> getAllByDate(@PathVariable int restaurantId, @RequestParam LocalDate date) {
         log.info("get dishes for restaurant {} on {}", restaurantId, date);
-        return dishRepository.getByDate(restaurantId, date);
+        return dishService.getByDate(restaurantId, date);
     }
 }

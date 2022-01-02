@@ -21,23 +21,23 @@ import java.util.List;
 public class UserRestaurantController {
     public static final String RESTAURANTS_REST_URL = "/api/restaurants";
 
-    private final RestaurantService restaurantRepository;
+    private final RestaurantService restaurantService;
 
-    public UserRestaurantController(RestaurantService restaurantRepository) {
-        this.restaurantRepository = restaurantRepository;
+    public UserRestaurantController(RestaurantService restaurantService) {
+        this.restaurantService = restaurantService;
     }
 
     @Cacheable
     @GetMapping
     public List<RestaurantTo> getAllNow() {
         log.info("get all restaurantTos today");
-        return restaurantRepository.getAllByDishesDate(LocalDate.now());
+        return restaurantService.getAllByDishesDate(LocalDate.now());
     }
 
     @Cacheable
     @GetMapping("/by")
     public List<RestaurantTo> getByDate(@RequestParam LocalDate date) {
         log.info("get all restaurantTos by date {}", date);
-        return restaurantRepository.getAllByDishesDate(date);
+        return restaurantService.getAllByDishesDate(date);
     }
 }

@@ -23,23 +23,23 @@ import static com.strelchenya.restaurantvoting.util.validation.ValidationUtil.as
 public class AdminRestaurantController {
     public static final String ADMIN_RESTAURANT_REST_URL = "/api/admin/restaurants";
 
-    private final RestaurantService restaurantRepository;
+    private final RestaurantService restaurantService;
 
-    public AdminRestaurantController(RestaurantService restaurantRepository) {
-        this.restaurantRepository = restaurantRepository;
+    public AdminRestaurantController(RestaurantService restaurantService) {
+        this.restaurantService = restaurantService;
     }
 
     @GetMapping("/{id}")
     public Restaurant get(@PathVariable int id) {
         log.info("get {}", id);
-        return restaurantRepository.get(id);
+        return restaurantService.get(id);
     }
 
     @CacheEvict(allEntries = true)
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Restaurant> create(@Valid @RequestBody Restaurant restaurant) {
         log.info("create {}", restaurant);
-        Restaurant created = restaurantRepository.create(restaurant);
+        Restaurant created = restaurantService.create(restaurant);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(ADMIN_RESTAURANT_REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
@@ -52,7 +52,7 @@ public class AdminRestaurantController {
     public void update(@Valid @RequestBody Restaurant restaurant, @PathVariable int id) {
         log.info("update {}", restaurant);
         assureIdConsistent(restaurant, id);
-        restaurantRepository.update(restaurant);
+        restaurantService.update(restaurant);
     }
 
     @CacheEvict(allEntries = true)
@@ -60,6 +60,6 @@ public class AdminRestaurantController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {
         log.info("delete {}", id);
-        restaurantRepository.delete(id);
+        restaurantService.delete(id);
     }
 }

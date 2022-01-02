@@ -1,7 +1,10 @@
 package com.strelchenya.restaurantvoting.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenerationTime;
 import org.hibernate.annotations.OnDelete;
 
@@ -63,6 +66,9 @@ public class Vote extends BaseEntity {
         return "Vote{" +
                 "id=" + id +
                 ", localDate=" + localDate +
+                ", localTime=" + localTime +
+                ", user=" + user +
+                ", restaurant=" + restaurant +
                 '}';
     }
 }
