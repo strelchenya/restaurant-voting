@@ -22,7 +22,6 @@ import static com.strelchenya.restaurantvoting.web.restaurant.AdminRestaurantCon
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = ADMIN_RESTAURANT_REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-//@CacheConfig(cacheNames = "dishes")
 public class AdminDishController {
     public static final String DISHES_REST_URL = "/{restaurantId}/dishes";
 
@@ -40,14 +39,12 @@ public class AdminDishController {
         return dishService.getMenuByDate(restaurantId, date);
     }
 
-    //    @Cacheable
     @GetMapping(value = DISHES_REST_URL)
     public List<Dish> getAll(@PathVariable int restaurantId) {
         log.info("get all dishes for restaurant {}", restaurantId);
         return dishService.getAll(restaurantId);
     }
 
-    //    @CacheEvict(allEntries = true)
     @PostMapping(value = DISHES_REST_URL, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Dish> create(@PathVariable int restaurantId, @RequestBody Dish dish) {
         log.info("create dish {} for restaurant {}", dish, restaurantId);
@@ -68,7 +65,6 @@ public class AdminDishController {
         dishService.update(dish, id, restaurantId);
     }
 
-    //    @CacheEvict(allEntries = true)
     @DeleteMapping(value = DISHES_REST_URL + "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int restaurantId, @PathVariable int id) {

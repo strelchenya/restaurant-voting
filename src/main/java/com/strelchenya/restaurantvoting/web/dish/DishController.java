@@ -26,7 +26,6 @@ public class DishController {
         return dishService.getById(id, restaurantId);
     }
 
-    //    @Cacheable(cacheNames = "dishes")
     @GetMapping(value = DISHES_REST_URL + "/by")
     public List<Dish> getMenuByDate(@PathVariable int restaurantId, @RequestParam LocalDate date) {
         log.info("get dishes for restaurant {} on {}", restaurantId, date);
