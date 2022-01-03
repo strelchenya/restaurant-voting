@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static com.strelchenya.restaurantvoting.web.dish.AdminDishController.DISHES_REST_URL;
-import static com.strelchenya.restaurantvoting.web.restaurant.UserRestaurantController.RESTAURANTS_REST_URL;
+import static com.strelchenya.restaurantvoting.web.restaurant.RestaurantController.RESTAURANTS_REST_URL;
 
 @Slf4j
 @RestController
@@ -28,7 +28,7 @@ public class UserDishController {
         return dishService.get(dishId, restaurantId);
     }
 
-//    @Cacheable(cacheNames = "dishes")
+    //    @Cacheable(cacheNames = "dishes")
     @GetMapping(value = DISHES_REST_URL + "/by")
     public List<Dish> getAllByDate(@PathVariable int restaurantId, @RequestParam LocalDate date) {
         log.info("get dishes for restaurant {} on {}", restaurantId, date);

@@ -29,6 +29,7 @@ public class ValidationUtil {
             throw new NotFoundException("Not found entity with " + msg);
         }
     }
+
     public static void checkNew(HasId bean) {
         if (!bean.isNew()) {
             throw new IllegalRequestDataException(bean.getClass().getSimpleName() + " must be new (id=null)");

@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Positive;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.beans.ConstructorProperties;
 import java.io.Serial;
@@ -27,11 +27,11 @@ public class RestaurantTo extends BaseTo implements HasId, Serializable {
     @NoHtml
     private String title;
 
-    @Positive
-    private long voices;
+    @NotNull
+    private Long voices;
 
     @ConstructorProperties({"id", "title", "voices"})
-    public RestaurantTo(int id, String title, long voices) {
+    public RestaurantTo(int id, String title, Long voices) {
         super(id);
         this.title = title;
         this.voices = voices;
