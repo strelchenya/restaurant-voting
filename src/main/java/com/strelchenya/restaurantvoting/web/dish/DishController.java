@@ -2,6 +2,7 @@ package com.strelchenya.restaurantvoting.web.dish;
 
 import com.strelchenya.restaurantvoting.model.Dish;
 import com.strelchenya.restaurantvoting.service.DishService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -13,25 +14,22 @@ import static com.strelchenya.restaurantvoting.web.dish.AdminDishController.DISH
 import static com.strelchenya.restaurantvoting.web.restaurant.RestaurantController.RESTAURANTS_REST_URL;
 
 @Slf4j
+@RequiredArgsConstructor
 @RestController
 @RequestMapping(value = RESTAURANTS_REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-public class UserDishController {
+public class DishController {
     private final DishService dishService;
 
-    public UserDishController(DishService dishService) {
-        this.dishService = dishService;
-    }
-
-    @GetMapping(value = DISHES_REST_URL + "/{dishId}")
-    public Dish get(@PathVariable int dishId, @PathVariable int restaurantId) {
-        log.info("get dish {} for restaurant {}", dishId, restaurantId);
-        return dishService.get(dishId, restaurantId);
+    @GetMapping(value = DISHES_REST_URL + "/{id}")
+    public Dish getById(@PathVariable int id, @PathVariable int restaurantId) {
+        log.info("get dish {} for restaurant {}", id, restaurantId);
+        return dishService.getById(id, restaurantId);
     }
 
     //    @Cacheable(cacheNames = "dishes")
     @GetMapping(value = DISHES_REST_URL + "/by")
-    public List<Dish> getAllByDate(@PathVariable int restaurantId, @RequestParam LocalDate date) {
+    public List<Dish> getMenuByDate(@PathVariable int restaurantId, @RequestParam LocalDate date) {
         log.info("get dishes for restaurant {} on {}", restaurantId, date);
-        return dishService.getByDate(restaurantId, date);
+        return dishService.getMenuByDate(restaurantId, date);
     }
 }
