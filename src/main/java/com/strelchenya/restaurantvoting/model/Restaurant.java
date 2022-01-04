@@ -1,6 +1,7 @@
 package com.strelchenya.restaurantvoting.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.strelchenya.restaurantvoting.util.validation.NoHtml;
 import lombok.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -24,6 +25,7 @@ public class Restaurant extends BaseEntity {
     @Column(name = "title", nullable = false)
     @Size(min = 2, max = 255)
     @NotBlank
+    @NoHtml
     private String title;
 
     @OnDelete(action = OnDeleteAction.CASCADE)
