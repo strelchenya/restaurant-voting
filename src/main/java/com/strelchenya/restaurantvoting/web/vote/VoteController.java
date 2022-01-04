@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -31,7 +32,7 @@ public class VoteController {
 
     @GetMapping("/by-date")
     public VoteTo getByUserIdAndLocalDate(@AuthenticationPrincipal AuthUser authUser,
-                                          @RequestParam LocalDate localDate) {
+                                          @RequestParam("local-date") @Nullable LocalDate localDate) {
         log.info("user {}, localDate {}", authUser.id(), localDate);
         return voteService.getByUserIdAndLocalDate(authUser.id(), localDate);
     }
