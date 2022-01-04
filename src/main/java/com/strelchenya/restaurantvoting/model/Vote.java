@@ -1,10 +1,7 @@
 package com.strelchenya.restaurantvoting.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.GenerationTime;
 import org.hibernate.annotations.OnDelete;
 
@@ -22,7 +19,7 @@ import static org.hibernate.annotations.OnDeleteAction.CASCADE;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-//@AllArgsConstructor
+@AllArgsConstructor
 public class Vote extends BaseEntity {
 
     @org.hibernate.annotations.Generated(GenerationTime.ALWAYS)
@@ -49,16 +46,10 @@ public class Vote extends BaseEntity {
     @JsonBackReference(value = "restaurantVotes")
     private Restaurant restaurant;
 
-    public Vote(LocalDate localDate, LocalTime localTime, User user, Restaurant restaurant) {
-        this(null, localDate, localTime, user, restaurant);
-    }
-
-    public Vote(Integer id, LocalDate localDate, LocalTime localTime, User user, Restaurant restaurant) {
+    public Vote(Integer id, LocalDate localDate, LocalTime localTime) {
         super(id);
         this.localDate = localDate;
         this.localTime = localTime;
-        this.user = user;
-        this.restaurant = restaurant;
     }
 
     @Override
