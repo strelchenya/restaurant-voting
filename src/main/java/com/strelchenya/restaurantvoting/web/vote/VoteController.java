@@ -1,6 +1,5 @@
 package com.strelchenya.restaurantvoting.web.vote;
 
-import com.strelchenya.restaurantvoting.model.Vote;
 import com.strelchenya.restaurantvoting.service.VoteService;
 import com.strelchenya.restaurantvoting.to.VoteTo;
 import com.strelchenya.restaurantvoting.web.AuthUser;
@@ -50,10 +49,10 @@ public class VoteController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Vote> create(@Valid @RequestBody Vote vote,
-                                       @AuthenticationPrincipal AuthUser authUser) {
-        log.info("save {} for userId {}", vote, authUser.id());
-        Vote created = voteService.create(vote, authUser.id());
+    public ResponseEntity<VoteTo> create(@Valid @RequestBody VoteTo voteTo,
+                                         @AuthenticationPrincipal AuthUser authUser) {
+        log.info("save {} for userId {}", voteTo, authUser.id());
+        VoteTo created = voteService.create(voteTo, authUser.id());
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(VOTE_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
@@ -62,9 +61,9 @@ public class VoteController {
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@Valid @RequestBody Vote vote, @AuthenticationPrincipal AuthUser authUser) {
-        log.info("update {} for userId {}", vote, authUser.id());
-        voteService.update(vote, authUser.id());
+    public void update(@Valid @RequestBody VoteTo voteTo, @AuthenticationPrincipal AuthUser authUser) {
+        log.info("update {} for userId {}", voteTo, authUser.id());
+        voteService.update(voteTo, authUser.id());
     }
 
     @DeleteMapping("/{id}")

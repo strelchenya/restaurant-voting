@@ -27,7 +27,8 @@ INSERT INTO vote (local_date, local_time, restaurant_id, user_id)
 VALUES ('2021-12-12', '06:01', 1, 1),
        ('2021-12-12', '08:00', 2, 2),
        ('2021-12-13', '08:20', 3, 1),
-       ('2021-12-13', '10:59', 2, 2);
+       ('2021-12-13', '10:59', 2, 2),
+       (CURRENT_DATE, '08:08', 3, 1);
 
 INSERT INTO dish (local_date, price, title, restaurant_id)
 VALUES ('2021-12-12', 211, 'Just Lunch', 1),

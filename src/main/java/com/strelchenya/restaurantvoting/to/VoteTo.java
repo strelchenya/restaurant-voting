@@ -4,6 +4,7 @@ import com.strelchenya.restaurantvoting.HasId;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.Value;
+import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotNull;
 import java.beans.ConstructorProperties;
@@ -21,6 +22,7 @@ public class VoteTo extends BaseTo implements HasId {
     @NotNull
     LocalTime localTime;
 
+    @Range(min = 1)
     @NotNull
     Integer restaurantId;
 

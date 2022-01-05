@@ -1,5 +1,6 @@
 package com.strelchenya.restaurantvoting.web;
 
+import com.strelchenya.restaurantvoting.service.VoteService;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -17,6 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 public abstract class AbstractControllerTest {
+
+    @Autowired
+    protected VoteService voteService;
 
     @Autowired
     private MockMvc mockMvc;
