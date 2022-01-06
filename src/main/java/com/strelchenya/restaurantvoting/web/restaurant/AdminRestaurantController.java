@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
@@ -34,7 +35,7 @@ public class AdminRestaurantController {
     }
 
     @GetMapping("/by")
-    public List<RestaurantTo> getAllByDate(@RequestParam LocalDate localDate) {
+    public List<RestaurantTo> getAllByDate(@NotNull @RequestParam(value = "local-date") LocalDate localDate) {
         log.info("get all restaurantTos by date {}", localDate);
         return restaurantService.getAllByDate(localDate);
     }

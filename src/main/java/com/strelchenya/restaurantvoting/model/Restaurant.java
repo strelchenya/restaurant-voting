@@ -54,6 +54,8 @@ public class Restaurant extends BaseEntity {
         return "Restaurant{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
+                ", menu=" + menu +
+                ", votes=" + votes +
                 '}';
     }
 }

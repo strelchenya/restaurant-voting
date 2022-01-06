@@ -1,10 +1,8 @@
 package com.strelchenya.restaurantvoting.web.dish;
 
-import com.strelchenya.restaurantvoting.repository.DishRepository;
 import com.strelchenya.restaurantvoting.web.AbstractControllerTest;
 import com.strelchenya.restaurantvoting.web.restaurant.RestaurantController;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 

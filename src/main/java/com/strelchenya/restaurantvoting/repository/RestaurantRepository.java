@@ -12,7 +12,6 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public interface RestaurantRepository extends BaseRepository<Restaurant> {
 
-    //    DISTINCT
     @Query("SELECT new com.strelchenya.restaurantvoting.to.RestaurantTo(r.id, r.title, count(v)) " +
             "FROM Restaurant r LEFT OUTER JOIN Vote v ON r.id = v.restaurant.id " +
             "WHERE v.localDate=:localDate " +

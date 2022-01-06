@@ -9,6 +9,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -22,6 +23,7 @@ public class RestaurantController {
 
     private final RestaurantService restaurantService;
 
+    @Cacheable
     @GetMapping("/{id}")
     public RestaurantTo getById(@PathVariable int id) {
         log.info("get restaurant by id {}", id);
@@ -30,7 +32,7 @@ public class RestaurantController {
 
     @Cacheable
     @GetMapping("/by")
-    public List<RestaurantTo> getAllByDate(@RequestParam LocalDate localDate) {
+    public List<RestaurantTo> getAllByDate(@NotNull @RequestParam(value = "local-date") LocalDate localDate) {
         log.info("get all restaurantTos by date {}", localDate);
         return restaurantService.getAllByDate(localDate);
     }
