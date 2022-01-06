@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -27,8 +28,9 @@ public class DishController {
     }
 
     @GetMapping(value = DISHES_REST_URL + "/by")
-    public List<Dish> getMenuByDate(@PathVariable int restaurantId, @RequestParam LocalDate date) {
-        log.info("get dishes for restaurant {} on {}", restaurantId, date);
-        return dishService.getMenuByDate(restaurantId, date);
+    public List<Dish> getMenuByDate(@PathVariable int restaurantId,
+                                    @NotNull @RequestParam(value = "local-date") LocalDate localDate) {
+        log.info("get dishes for restaurant {} on {}", restaurantId, localDate);
+        return dishService.getMenuByDate(restaurantId, localDate);
     }
 }

@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
@@ -34,9 +36,10 @@ public class AdminDishController {
     }
 
     @GetMapping(value = DISHES_REST_URL + "/by")
-    public List<Dish> getMenuByDate(@PathVariable int restaurantId, @RequestParam LocalDate date) {
-        log.info("get dishes for restaurant {} on {}", restaurantId, date);
-        return dishService.getMenuByDate(restaurantId, date);
+    public List<Dish> getMenuByDate(@PathVariable int restaurantId,
+                                    @NotNull @RequestParam(value = "local-date") LocalDate localDate) {
+        log.info("get dishes for restaurant {} on {}", restaurantId, localDate);
+        return dishService.getMenuByDate(restaurantId, localDate);
     }
 
     @GetMapping(value = DISHES_REST_URL)
@@ -46,7 +49,7 @@ public class AdminDishController {
     }
 
     @PostMapping(value = DISHES_REST_URL, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Dish> create(@PathVariable int restaurantId, @RequestBody Dish dish) {
+    public ResponseEntity<Dish> create(@Valid @RequestBody Dish dish, @PathVariable int restaurantId) {
         log.info("create dish {} for restaurant {}", dish, restaurantId);
         checkNew(dish);
 
@@ -59,7 +62,7 @@ public class AdminDishController {
 
     @PutMapping(value = DISHES_REST_URL + "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@RequestBody Dish dish, @PathVariable int id, @PathVariable int restaurantId) {
+    public void update(@Valid @RequestBody Dish dish, @PathVariable int id, @PathVariable int restaurantId) {
         log.info("update dish {}, dish id {} for restaurant {}", dish, id, restaurantId);
         assureIdConsistent(dish, id);
         dishService.update(dish, id, restaurantId);

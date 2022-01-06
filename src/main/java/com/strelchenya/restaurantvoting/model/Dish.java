@@ -1,7 +1,6 @@
 package com.strelchenya.restaurantvoting.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.strelchenya.restaurantvoting.util.validation.NoHtml;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
@@ -35,14 +34,13 @@ public class Dish extends BaseEntity {
     private Integer price;
 
     @Column(name = "local_date", columnDefinition = "timestamp default now()", nullable = false)
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private LocalDate localDate = LocalDate.now();
+    @NotNull
+    private LocalDate localDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonBackReference
-    @NotNull
+    @JsonBackReference(value = "restaurantDish")
     private Restaurant restaurant;
 
     public Dish(Integer id, String title, Integer price, LocalDate localDate) {
@@ -54,10 +52,12 @@ public class Dish extends BaseEntity {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "(" +
-                "id = " + id + ", " +
-                "title = " + title + ", " +
-                "price = " + price + ", " +
-                "date = " + localDate + ")";
+        return "Dish{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", price=" + price +
+                ", localDate=" + localDate +
+                ", restaurant=" + restaurant +
+                '}';
     }
 }

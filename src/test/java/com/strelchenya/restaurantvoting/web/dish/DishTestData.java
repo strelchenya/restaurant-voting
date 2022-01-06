@@ -3,6 +3,7 @@ package com.strelchenya.restaurantvoting.web.dish;
 import com.strelchenya.restaurantvoting.model.Dish;
 import com.strelchenya.restaurantvoting.web.MatcherFactory;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static com.strelchenya.restaurantvoting.web.vote.VoteTestData.date_1;
@@ -12,7 +13,9 @@ public class DishTestData {
     public static final MatcherFactory.Matcher<Dish> DISH_MATCHER =
             MatcherFactory.usingIgnoringFieldsComparator(Dish.class, "restaurant");
 
-    public static final Dish dish_1 = new Dish(1, "Just Lunch", 211, date_1);
+    public static final int DISH_ID_1 = 1;
+
+    public static final Dish dish_1 = new Dish(DISH_ID_1, "Just Lunch", 211, date_1);
     public static final Dish dish_2 = new Dish(2, "Steak frites", 244, date_1);
     public static final Dish dish_3 = new Dish(3, "Chicken confit", 135, date_1);
     public static final Dish dish_4 = new Dish(4, "French onion soup", 1251, date_1);
@@ -31,8 +34,11 @@ public class DishTestData {
     public static final Dish dish_17 = new Dish(17, "Cheesy tuna pasta", 119, date_2);
     public static final Dish dish_18 = new Dish(18, "Tarte tatin", 113, date_2);
 
-    public static final List<Dish> menu_1 = List.of(dish_1, dish_2, dish_3, dish_4,
-            dish_5, dish_6, dish_7, dish_8, dish_9);
-    public static final List<Dish> menu_2 = List.of(dish_10, dish_11, dish_12, dish_13,
-            dish_14, dish_15, dish_16, dish_17, dish_18);
+    public static final List<Dish> menu = List.of(dish_3, dish_1, dish_2);
+    public static final List<Dish> dishesRestaurant = List.of(dish_10, dish_11, dish_12, dish_1,
+            dish_2, dish_3);
+
+    protected static Dish getNew(){
+        return new Dish(null, "newDish", 9999, LocalDate.now());
+    }
 }

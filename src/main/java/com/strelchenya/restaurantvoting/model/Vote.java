@@ -36,14 +36,14 @@ public class Vote extends BaseEntity {
     @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = CASCADE)
     @NotNull
-    @JsonBackReference
+    @JsonBackReference(value = "userVote")
     private User user;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = CASCADE)
     @NotNull
-    @JsonBackReference(value = "restaurantVotes")
+    @JsonBackReference(value = "restaurantVote")
     private Restaurant restaurant;
 
     public Vote(Integer id, LocalDate localDate, LocalTime localTime) {

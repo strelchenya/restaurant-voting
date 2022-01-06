@@ -76,6 +76,7 @@ class VoteControllerTest extends AbstractControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(admin))
                 .content(JsonUtil.writeValue(newVoteTo)))
+                .andExpect(status().isCreated())
                 .andDo(print());
 
         VoteTo created = VOTE_TO_MATCHER.readFromJson(action);
