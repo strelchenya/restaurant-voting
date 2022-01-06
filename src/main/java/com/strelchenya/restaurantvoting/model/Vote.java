@@ -58,8 +58,6 @@ public class Vote extends BaseEntity {
                 "id=" + id +
                 ", localDate=" + localDate +
                 ", localTime=" + localTime +
-                ", user=" + user +
-                ", restaurant=" + restaurant +
                 '}';
     }
 }
