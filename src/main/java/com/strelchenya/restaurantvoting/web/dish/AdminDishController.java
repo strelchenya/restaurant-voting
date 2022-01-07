@@ -1,6 +1,7 @@
 package com.strelchenya.restaurantvoting.web.dish;
 
 import com.strelchenya.restaurantvoting.model.Dish;
+import com.strelchenya.restaurantvoting.model.User;
 import com.strelchenya.restaurantvoting.service.DishService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,9 +31,9 @@ public class AdminDishController {
     private final DishService dishService;
 
     @GetMapping(value = DISHES_REST_URL + "/{id}")
-    public Dish getById(@PathVariable int id, @PathVariable int restaurantId) {
+    public ResponseEntity<Dish> getById(@PathVariable int id, @PathVariable int restaurantId) {
         log.info("get dish {} for restaurant {}", id, restaurantId);
-        return dishService.getById(id, restaurantId);
+        return ResponseEntity.ok(dishService.getById(id, restaurantId));
     }
 
     @GetMapping(value = DISHES_REST_URL + "/by")

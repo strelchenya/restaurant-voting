@@ -74,7 +74,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<?> persistException(WebRequest request, DataIntegrityViolationException ex) {
+    public ResponseEntity<?> dataException(WebRequest request, DataIntegrityViolationException ex) {
         log.error("DataIntegrityViolationException: {}", ex.getMessage());
         return createResponseEntity(
                 getDefaultBody(request, ErrorAttributeOptions.of(MESSAGE), getErrorMessage(ex.getMessage())),

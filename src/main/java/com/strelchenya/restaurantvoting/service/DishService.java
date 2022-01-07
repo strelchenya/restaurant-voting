@@ -23,7 +23,7 @@ public class DishService {
 
     public Dish getById(int id, int restaurantId) {
         return dishRepository.getByIdAndRestaurant_Id(id, restaurantId)
-                .orElseThrow(() -> new NotFoundException("not found dish " + id + "by restaurant " + restaurantId));
+                .orElseThrow(() -> new NotFoundException("not found dish " + id + " by restaurant " + restaurantId));
     }
 
     public List<Dish> getMenuByDate(int restaurantId, LocalDate date) {

@@ -13,6 +13,7 @@ public class RestaurantTestData {
     public static final MatcherFactory.Matcher<RestaurantTo> RESTAURANT_TO_MATCHER =
             MatcherFactory.usingEqualsComparator(RestaurantTo.class);
 
+    public static final int NOT_FOUND_RESTAURANT = 0;
     public static final int RESTAURANT_ID_1 = 1;
     public static final int RESTAURANT_ID_2 = 2;
     public static final int RESTAURANT_ID_3 = 3;

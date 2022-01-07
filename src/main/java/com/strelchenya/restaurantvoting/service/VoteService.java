@@ -30,12 +30,12 @@ public class VoteService {
 
     public VoteTo getByUserIdAndLocalDate(int userId, LocalDate localDate) {
         return voteRepository.getByUserIdAndLocalDate(userId, localDate).orElseThrow(() ->
-                new NotFoundException("not found vote by date " + localDate + "and user id " + userId));
+                new NotFoundException("not found vote by date " + localDate + " and user id " + userId));
     }
 
     public VoteTo getByIdAndUserId(int id, int userId) {
         return voteRepository.getByIdAndUserId(id, userId).orElseThrow(() ->
-                new NotFoundException("not found vote by id " + id + "and user id " + userId));
+                new NotFoundException("not found vote by id " + id + " and user id " + userId));
     }
 
     public List<VoteTo> getAll(int userId) {

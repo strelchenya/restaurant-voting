@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static com.strelchenya.restaurantvoting.web.TestUtil.userHttpBasic;
 import static com.strelchenya.restaurantvoting.web.dish.DishTestData.*;
+import static com.strelchenya.restaurantvoting.web.restaurant.RestaurantTestData.NOT_FOUND_RESTAURANT;
 import static com.strelchenya.restaurantvoting.web.restaurant.RestaurantTestData.RESTAURANT_ID_1;
 import static com.strelchenya.restaurantvoting.web.user.UserTestData.ADMIN_ID;
 import static com.strelchenya.restaurantvoting.web.user.UserTestData.admin;
@@ -36,6 +37,32 @@ class AdminDishControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    void getByInvalidId() throws Exception {
+        perform(MockMvcRequestBuilders.get(ADMIN_RESTAURANT_REST_URL + RESTAURANT_ID_1 + DISHES_REST_URL + NOT_FOUND_DISH)
+                .with(userHttpBasic(admin)))
+                .andExpect(status().isUnprocessableEntity())
+                .andDo(print());
+    }
+
+    @Test
+    void getMenuByEmptyDate() throws Exception {
+        perform(MockMvcRequestBuilders.get(ADMIN_RESTAURANT_REST_URL + RESTAURANT_ID_1 + DISHES_REST_URL + "/by")
+                .param("local-date", "")
+                .with(userHttpBasic(admin)))
+                .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
+
+    @Test
+    void getMenuByInvalidDate() throws Exception {
+        perform(MockMvcRequestBuilders.get(ADMIN_RESTAURANT_REST_URL + RESTAURANT_ID_1 + DISHES_REST_URL + "/by")
+                .param("local-date", "2000-12-12")
+                .with(userHttpBasic(admin)))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @Test
     void getMenuByDate() throws Exception {
         perform(MockMvcRequestBuilders.get(ADMIN_RESTAURANT_REST_URL + RESTAURANT_ID_1 + DISHES_REST_URL + "/by")
                 .param("local-date", "2021-12-12")
@@ -57,6 +84,14 @@ class AdminDishControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    void getAllForNotFoundRestaurant() throws Exception {
+        perform(MockMvcRequestBuilders.get(ADMIN_RESTAURANT_REST_URL + NOT_FOUND_RESTAURANT + DISHES_REST_URL)
+                .with(userHttpBasic(admin)))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @Test
     void delete() throws Exception {
         perform(MockMvcRequestBuilders.delete(ADMIN_RESTAURANT_REST_URL + RESTAURANT_ID_1 + DISHES_REST_URL + DISH_ID_1)
                 .with(userHttpBasic(admin)))
@@ -64,6 +99,14 @@ class AdminDishControllerTest extends AbstractControllerTest {
                 .andDo(print());
 
         assertThrows(NotFoundException.class, () -> dishService.getById(DISH_ID_1, ADMIN_ID));
+    }
+
+    @Test
+    void deleteNotFoundDish() throws Exception {
+        perform(MockMvcRequestBuilders.delete(ADMIN_RESTAURANT_REST_URL + RESTAURANT_ID_1 + DISHES_REST_URL + NOT_FOUND_DISH)
+                .with(userHttpBasic(admin)))
+                .andExpect(status().isUnprocessableEntity())
+                .andDo(print());
     }
 
     @Test
@@ -85,6 +128,29 @@ class AdminDishControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    void createNotFoundRestaurant() throws Exception {
+        Dish newDish = getNew();
+        perform(MockMvcRequestBuilders.post(ADMIN_RESTAURANT_REST_URL + NOT_FOUND_RESTAURANT + DISHES_REST_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(admin))
+                .content(JsonUtil.writeValue(newDish)))
+                .andExpect(status().isUnprocessableEntity())
+                .andDo(print());
+    }
+
+    @Test
+    void createNewDishWithId() throws Exception {
+        Dish newDish = getNew();
+        newDish.setId(DISH_ID_1);
+        perform(MockMvcRequestBuilders.post(ADMIN_RESTAURANT_REST_URL + RESTAURANT_ID_1 + DISHES_REST_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(admin))
+                .content(JsonUtil.writeValue(newDish)))
+                .andExpect(status().isUnprocessableEntity())
+                .andDo(print());
+    }
+
+    @Test
     void update() throws Exception {
         Dish updatedDish = dishService.getById(DISH_ID_1, RESTAURANT_ID_1);
         updatedDish.setPrice(999);
@@ -94,5 +160,17 @@ class AdminDishControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(admin)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
+    }
+
+    @Test
+    void updateNotFound() throws Exception {
+        Dish updatedDish = dishService.getById(DISH_ID_1, RESTAURANT_ID_1);
+        updatedDish.setPrice(999);
+        perform(MockMvcRequestBuilders.put(ADMIN_RESTAURANT_REST_URL + RESTAURANT_ID_1 + DISHES_REST_URL + NOT_FOUND_DISH)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(updatedDish))
+                .with(userHttpBasic(admin)))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
     }
 }

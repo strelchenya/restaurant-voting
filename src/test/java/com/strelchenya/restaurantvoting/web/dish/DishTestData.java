@@ -13,6 +13,7 @@ public class DishTestData {
     public static final MatcherFactory.Matcher<Dish> DISH_MATCHER =
             MatcherFactory.usingIgnoringFieldsComparator(Dish.class, "restaurant");
 
+    public static final int NOT_FOUND_DISH = 0;
     public static final int DISH_ID_1 = 1;
 
     public static final Dish dish_1 = new Dish(DISH_ID_1, "Just Lunch", 211, date_1);

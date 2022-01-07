@@ -30,6 +30,14 @@ class DishControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    void getByInvalidId() throws Exception {
+        perform(MockMvcRequestBuilders.get(RESTAURANTS_REST_URL + RESTAURANT_ID_1 + DISHES_REST_URL + NOT_FOUND_DISH)
+                .with(userHttpBasic(user)))
+                .andExpect(status().isUnprocessableEntity())
+                .andDo(print());
+    }
+
+    @Test
     void getMenuByDate() throws Exception {
         perform(MockMvcRequestBuilders.get(RESTAURANTS_REST_URL + RESTAURANT_ID_1 + DISHES_REST_URL + "/by")
                 .param("local-date", "2021-12-12")
@@ -38,5 +46,23 @@ class DishControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(DISH_MATCHER.contentJson(menu));
+    }
+
+    @Test
+    void getMenuByEmptyDate() throws Exception {
+        perform(MockMvcRequestBuilders.get(RESTAURANTS_REST_URL + RESTAURANT_ID_1 + DISHES_REST_URL + "/by")
+                .param("local-date", "")
+                .with(userHttpBasic(user)))
+                .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
+
+    @Test
+    void getMenuByInvalidDate() throws Exception {
+        perform(MockMvcRequestBuilders.get(RESTAURANTS_REST_URL + RESTAURANT_ID_1 + DISHES_REST_URL + "/by")
+                .param("local-date", "2000-12-12")
+                .with(userHttpBasic(user)))
+                .andExpect(status().isOk())
+                .andDo(print());
     }
 }
