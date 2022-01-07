@@ -29,8 +29,19 @@ import static org.springframework.boot.web.error.ErrorAttributeOptions.Include.M
 @AllArgsConstructor
 @Slf4j
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
-    public static final String EXCEPTION_DUPLICATE_EMAIL = "User with this email already exists";
+    public static final String EXCEPTION_DUPLICATE_EMAIL = "User with this email already exists!";
     public static final String EXCEPTION_END_OF_VOTING_TIME = "Time for voting is over!";
+    public static final String EXCEPTION_DUPLICATE_VOTE = "You have already voted!";
+    public static final String EXCEPTION_DUPLICATE_DISH = "This restaurant already has this dish on the menu!";
+    public static final String EXCEPTION_DUPLICATE_RESTAURANT = "This restaurant already exists!";
+
+    private static final Map<String, String> CONTAINS_EXCEPTIONS = Map.of(
+            "END_OF_VOTING_TIME", EXCEPTION_END_OF_VOTING_TIME,
+            "VOTE_UNIQUE_USER_DATE_IDX", EXCEPTION_DUPLICATE_VOTE,
+            "USER_UNIQUE_EMAIL_IDX", EXCEPTION_DUPLICATE_EMAIL,
+            "DISH_UNIQUE_RESTAURANT_TITLE_IDX", EXCEPTION_DUPLICATE_DISH,
+            "RESTAURANT_UNIQUE_TITLE_IDX", EXCEPTION_DUPLICATE_RESTAURANT
+    );
 
     private final ErrorAttributes errorAttributes;
 
@@ -65,8 +76,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<?> persistException(WebRequest request, DataIntegrityViolationException ex) {
         log.error("DataIntegrityViolationException: {}", ex.getMessage());
-        String errorMessage = getErrorMessage(ex.getMessage());
-        return createResponseEntity(getDefaultBody(request, ErrorAttributeOptions.of(MESSAGE), errorMessage),
+        return createResponseEntity(
+                getDefaultBody(request, ErrorAttributeOptions.of(MESSAGE), getErrorMessage(ex.getMessage())),
                 HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
@@ -105,15 +116,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 ValidationUtil.getRootCause(ex).getMessage()), status);
     }
 
-    private String getErrorMessage(String message) {
-        log.info("message: {}", message);
+    private static String getErrorMessage(String message) {
+        log.info("getErrorMessage: {}", message);
         if (message == null || message.isBlank()) {
             return null;
         }
-
-        if (message.toUpperCase().contains("END_OF_VOTING_TIME")) {
-            return EXCEPTION_END_OF_VOTING_TIME;
-        }
-        return null;
+        return CONTAINS_EXCEPTIONS.entrySet().stream()
+                .filter(e -> message.toUpperCase().contains(e.getKey()))
+                .map(Map.Entry::getValue)
+                .findFirst().orElse(null);
     }
 }
