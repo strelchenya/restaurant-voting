@@ -1,6 +1,5 @@
 package com.strelchenya.restaurantvoting.to;
 
-import com.strelchenya.restaurantvoting.HasId;
 import com.strelchenya.restaurantvoting.util.validation.NoHtml;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -15,7 +14,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class RestaurantTo extends BaseTo implements HasId {
+public class RestaurantTo extends BaseTo{
 
     @Size(min = 2, max = 255)
     @NotBlank

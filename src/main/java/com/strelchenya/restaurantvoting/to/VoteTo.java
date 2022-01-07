@@ -1,20 +1,18 @@
 package com.strelchenya.restaurantvoting.to;
 
-import com.strelchenya.restaurantvoting.HasId;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.Value;
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotNull;
-import java.beans.ConstructorProperties;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Value
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-public class VoteTo extends BaseTo implements HasId {
+public class VoteTo extends BaseTo{
 
     @NotNull
     LocalDate localDate;
