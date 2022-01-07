@@ -22,11 +22,10 @@ public class VoteTo extends BaseTo implements HasId {
     @NotNull
     LocalTime localTime;
 
-    @Range(min = 1)
+    @Range(min = 0)
     @NotNull
     Integer restaurantId;
 
-    @ConstructorProperties({"id", "localDate", "localTime", "restaurantId"})
     public VoteTo(Integer id, LocalDate localDate, LocalTime localTime, Integer restaurantId) {
         super(id);
         this.localDate = localDate;
