@@ -4,12 +4,14 @@ import com.strelchenya.restaurantvoting.error.NotFoundException;
 import com.strelchenya.restaurantvoting.to.VoteTo;
 import com.strelchenya.restaurantvoting.util.JsonUtil;
 import com.strelchenya.restaurantvoting.web.AbstractControllerTest;
+import com.strelchenya.restaurantvoting.web.GlobalExceptionHandler;
 import com.strelchenya.restaurantvoting.web.MatcherFactory;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -18,6 +20,7 @@ import static com.strelchenya.restaurantvoting.web.TestUtil.userHttpBasic;
 import static com.strelchenya.restaurantvoting.web.restaurant.RestaurantTestData.RESTAURANT_ID_1;
 import static com.strelchenya.restaurantvoting.web.user.UserTestData.*;
 import static com.strelchenya.restaurantvoting.web.vote.VoteTestData.*;
+import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -71,27 +74,44 @@ class VoteControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Disabled("work 00:00:00 to 10:59:59")
+    @Transactional(propagation = Propagation.NEVER)
+    void createWhenTimeIsUp() throws Exception {
+        VoteTo newVoteTo = getNew();
+        if (LocalTime.now().isAfter(LocalTime.of(11, 0))) {
+            perform(MockMvcRequestBuilders.post(VOTE_URL)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .with(userHttpBasic(admin))
+                    .content(JsonUtil.writeValue(newVoteTo)))
+                    .andDo(print())
+                    .andExpect(status().isUnprocessableEntity())
+                    .andExpect(content().string(containsString(GlobalExceptionHandler.EXCEPTION_END_OF_VOTING_TIME)));
+        }
+    }
+
+    @Test
     void create() throws Exception {
         VoteTo newVoteTo = getNew();
-        ResultActions action = perform(MockMvcRequestBuilders.post(VOTE_URL)
-                .contentType(MediaType.APPLICATION_JSON)
-                .with(userHttpBasic(admin))
-                .content(JsonUtil.writeValue(newVoteTo)))
-                .andExpect(status().isCreated())
-                .andDo(print());
+        ResultActions action;
+        if (LocalTime.now().isBefore(LocalTime.of(11, 0))) {
+            action = perform(MockMvcRequestBuilders.post(VOTE_URL)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .with(userHttpBasic(admin))
+                    .content(JsonUtil.writeValue(newVoteTo)))
+                    .andExpect(status().isCreated())
+                    .andDo(print());
 
-        VoteTo created = VOTE_TO_MATCHER.readFromJson(action);
-        int newId = created.id();
-        newVoteTo.setId(newId);
-        VOTE_TO_MATCHER.assertMatch(created, newVoteTo);
-        MatcherFactory.usingIgnoringFieldsComparator(VoteTo.class, "localDate", "localTime")
-                .assertMatch(voteService.getByIdAndUserId(newId, ADMIN_ID), newVoteTo);
+            VoteTo created = VOTE_TO_MATCHER.readFromJson(action);
+            int newId = created.id();
+            newVoteTo.setId(newId);
+            VOTE_TO_MATCHER.assertMatch(created, newVoteTo);
+            MatcherFactory.usingIgnoringFieldsComparator(VoteTo.class, "localDate", "localTime")
+                    .assertMatch(voteService.getByIdAndUserId(newId, ADMIN_ID), newVoteTo);
+        }
     }
 
     @Test
     void updateInvalid() throws Exception {
-        VoteTo invalid = new VoteTo(VOTE_ID_1, LocalDate.now(), LocalTime.now(),3);
+        VoteTo invalid = new VoteTo(VOTE_ID_1, LocalDate.now(), LocalTime.now(), 3);
         perform(MockMvcRequestBuilders.put(VOTE_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(invalid))

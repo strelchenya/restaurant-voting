@@ -1,11 +1,12 @@
 package com.strelchenya.restaurantvoting.web;
 
-import com.strelchenya.restaurantvoting.error.AppException;
+import com.strelchenya.restaurantvoting.error.ApplicationException;
 import com.strelchenya.restaurantvoting.util.validation.ValidationUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,7 @@ import static org.springframework.boot.web.error.ErrorAttributeOptions.Include.M
 @Slf4j
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public static final String EXCEPTION_DUPLICATE_EMAIL = "User with this email already exists";
+    public static final String EXCEPTION_END_OF_VOTING_TIME = "Time for voting is over!";
 
     private final ErrorAttributes errorAttributes;
 
@@ -47,8 +49,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return handleBindingErrors(ex.getBindingResult(), request);
     }
 
-    @ExceptionHandler(AppException.class)
-    public ResponseEntity<?> appException(WebRequest request, AppException ex) {
+    @ExceptionHandler(ApplicationException.class)
+    public ResponseEntity<?> appException(WebRequest request, ApplicationException ex) {
         log.error("ApplicationException: {}", ex.getMessage());
         return createResponseEntity(getDefaultBody(request, ex.getOptions(), null), ex.getStatus());
     }
@@ -57,6 +59,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<?> persistException(WebRequest request, EntityNotFoundException ex) {
         log.error("EntityNotFoundException: {}", ex.getMessage());
         return createResponseEntity(getDefaultBody(request, ErrorAttributeOptions.of(MESSAGE), null),
+                HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<?> persistException(WebRequest request, DataIntegrityViolationException ex) {
+        log.error("DataIntegrityViolationException: {}", ex.getMessage());
+        String errorMessage = getErrorMessage(ex.getMessage());
+        return createResponseEntity(getDefaultBody(request, ErrorAttributeOptions.of(MESSAGE), errorMessage),
                 HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
@@ -93,5 +103,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         super.handleExceptionInternal(ex, body, headers, status, request);
         return createResponseEntity(getDefaultBody(request, ErrorAttributeOptions.of(),
                 ValidationUtil.getRootCause(ex).getMessage()), status);
+    }
+
+    private String getErrorMessage(String message) {
+        log.info("message: {}", message);
+        if (message == null || message.isBlank()) {
+            return null;
+        }
+
+        if (message.toUpperCase().contains("END_OF_VOTING_TIME")) {
+            return EXCEPTION_END_OF_VOTING_TIME;
+        }
+        return null;
     }
 }
