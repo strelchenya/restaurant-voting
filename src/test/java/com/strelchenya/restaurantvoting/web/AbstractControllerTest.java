@@ -1,6 +1,5 @@
 package com.strelchenya.restaurantvoting.web;
 
-import com.strelchenya.restaurantvoting.repository.DishRepository;
 import com.strelchenya.restaurantvoting.service.DishService;
 import com.strelchenya.restaurantvoting.service.RestaurantService;
 import com.strelchenya.restaurantvoting.service.VoteService;

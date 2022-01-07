@@ -11,16 +11,12 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.beans.ConstructorProperties;
-import java.io.Serial;
-import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class RestaurantTo extends BaseTo implements HasId, Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class RestaurantTo extends BaseTo implements HasId {
 
     @Size(min = 2, max = 255)
     @NotBlank
