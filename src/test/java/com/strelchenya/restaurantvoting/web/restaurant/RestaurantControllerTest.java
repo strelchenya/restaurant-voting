@@ -28,6 +28,14 @@ class RestaurantControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    void getNotFoundById() throws Exception {
+        perform(MockMvcRequestBuilders.get(RESTAURANTS_REST_URL + NOT_FOUND_RESTAURANT)
+                .with(userHttpBasic(user)))
+                .andExpect(status().isUnprocessableEntity())
+                .andDo(print());
+    }
+
+    @Test
     void getAllByDate() throws Exception {
         perform(MockMvcRequestBuilders.get(RESTAURANTS_REST_URL + "/by")
                 .param("local-date", "2021-12-12")

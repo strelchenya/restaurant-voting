@@ -5,6 +5,7 @@ import com.strelchenya.restaurantvoting.to.RestaurantTo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
@@ -21,9 +22,9 @@ public class RestaurantController {
     private final RestaurantService restaurantService;
 
     @GetMapping("/{id}")
-    public RestaurantTo getById(@PathVariable int id) {
+    public ResponseEntity<RestaurantTo> getById(@PathVariable int id) {
         log.info("get restaurant by id {}", id);
-        return restaurantService.getById(id);
+        return ResponseEntity.ok(restaurantService.getById(id));
     }
 
     @GetMapping("/by")
