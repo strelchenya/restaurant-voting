@@ -2,7 +2,9 @@ package com.strelchenya.restaurantvoting.util;
 
 import com.strelchenya.restaurantvoting.model.Vote;
 import com.strelchenya.restaurantvoting.to.VoteTo;
+import lombok.experimental.UtilityClass;
 
+@UtilityClass
 public class ToUtil {
 
     public static Vote asVote(VoteTo voteTo) {

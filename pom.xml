@@ -6,7 +6,8 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.6.2</version>
-        <relativePath/> <!-- lookup parent from repository -->
+<!--        https://www.baeldung.com/maven-relativepath#disable-local-file-resolution-->
+        <relativePath/>
     </parent>
 
     <groupId>com.strelchenya</groupId>

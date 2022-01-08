@@ -129,7 +129,8 @@ class VoteControllerTest extends AbstractControllerTest {
             VoteTo created = VOTE_TO_MATCHER.readFromJson(action);
             int newId = created.id();
             newVoteTo.setId(newId);
-            VOTE_TO_MATCHER.assertMatch(created, newVoteTo);
+            MatcherFactory.usingIgnoringFieldsComparator(VoteTo.class, "localDate", "localTime")
+                    .assertMatch(created, newVoteTo);
             MatcherFactory.usingIgnoringFieldsComparator(VoteTo.class, "localDate", "localTime")
                     .assertMatch(voteService.getByIdAndUserId(newId, ADMIN_ID), newVoteTo);
         }
