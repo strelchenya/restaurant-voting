@@ -45,4 +45,22 @@ class RestaurantControllerTest extends AbstractControllerTest {
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(RESTAURANT_TO_MATCHER.contentJson(restaurantTos));
     }
+
+    @Test
+    void getAllByInvalidDate() throws Exception {
+        perform(MockMvcRequestBuilders.get(RESTAURANTS_REST_URL + "/by")
+                .param("local-date", "2021")
+                .with(userHttpBasic(user)))
+                .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
+
+    @Test
+    void getAllByNotFoundDate() throws Exception {
+        perform(MockMvcRequestBuilders.get(RESTAURANTS_REST_URL + "/by")
+                .param("local-date", "1999-12-12")
+                .with(userHttpBasic(user)))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
 }
