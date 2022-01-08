@@ -27,7 +27,7 @@ public class Vote extends BaseEntity {
     @NotNull
     private LocalDate localDate;
 
-    @org.hibernate.annotations.Generated(GenerationTime.NEVER)
+    @org.hibernate.annotations.Generated(GenerationTime.ALWAYS)
     @Column(name = "local_time", nullable = false)
     @NotNull
     private LocalTime localTime;
