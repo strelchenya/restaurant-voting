@@ -26,7 +26,7 @@ import static com.strelchenya.restaurantvoting.util.validation.ValidationUtil.ch
 @Slf4j
 @CacheConfig(cacheNames = "users")
 public class ProfileController extends AbstractUserController {
-    static final String REST_URL = "/api/profile";
+    static final String REST_URL = "/api/v1/profile";
 
     @GetMapping
     public User get(@AuthenticationPrincipal AuthUser authUser) {

@@ -26,7 +26,7 @@ import static com.strelchenya.restaurantvoting.util.validation.ValidationUtil.ch
 @CacheConfig(cacheNames = "users")
 public class AdminUserController extends AbstractUserController {
 
-    static final String REST_URL = "/api/admin/users";
+    static final String REST_URL = "/api/v1/admin/users";
 
     @Override
     @GetMapping("/{id}")

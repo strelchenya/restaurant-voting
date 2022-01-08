@@ -25,7 +25,7 @@ import static com.strelchenya.restaurantvoting.web.vote.VoteController.VOTE_URL;
 @RequestMapping(value = VOTE_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @RestController
 public class VoteController {
-    public static final String VOTE_URL = "/api/profile/votes";
+    public static final String VOTE_URL = "/api/v1/profile/votes";
 
     private final VoteService voteService;
 

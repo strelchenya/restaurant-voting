@@ -24,7 +24,7 @@ import static com.strelchenya.restaurantvoting.web.restaurant.AdminRestaurantCon
 @RequiredArgsConstructor
 @RequestMapping(value = ADMIN_RESTAURANT_REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class AdminRestaurantController {
-    public static final String ADMIN_RESTAURANT_REST_URL = "/api/admin/restaurants";
+    public static final String ADMIN_RESTAURANT_REST_URL = "/api/v1/admin/restaurants";
 
     private final RestaurantService restaurantService;
 
