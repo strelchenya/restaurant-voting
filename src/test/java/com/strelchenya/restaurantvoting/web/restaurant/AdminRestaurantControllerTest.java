@@ -1,11 +1,11 @@
 package com.strelchenya.restaurantvoting.web.restaurant;
 
+import com.strelchenya.restaurantvoting.error.NotFoundException;
 import com.strelchenya.restaurantvoting.model.Restaurant;
 import com.strelchenya.restaurantvoting.to.RestaurantTo;
 import com.strelchenya.restaurantvoting.util.JsonUtil;
 import com.strelchenya.restaurantvoting.web.AbstractControllerTest;
 import org.junit.jupiter.api.Test;
-import org.springframework.dao.InvalidDataAccessResourceUsageException;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -50,7 +50,7 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
                 .andExpect(status().isNoContent())
                 .andDo(print());
 
-        assertThrows(InvalidDataAccessResourceUsageException.class, () -> restaurantService.getById(RESTAURANT_ID_1));
+        assertThrows(NotFoundException.class, () -> restaurantService.getById(RESTAURANT_ID_1));
     }
 
     @Test
