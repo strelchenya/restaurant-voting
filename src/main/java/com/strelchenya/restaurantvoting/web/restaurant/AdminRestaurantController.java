@@ -29,9 +29,9 @@ public class AdminRestaurantController {
     private final RestaurantService restaurantService;
 
     @GetMapping("/{id}")
-    public RestaurantTo getById(@PathVariable int id) {
+    public ResponseEntity<RestaurantTo> getById(@PathVariable int id) {
         log.info("get restaurant by id {}", id);
-        return restaurantService.getById(id);
+        return ResponseEntity.ok(restaurantService.getById(id));
     }
 
     @GetMapping("/by")

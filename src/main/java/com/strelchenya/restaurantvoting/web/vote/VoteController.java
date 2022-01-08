@@ -30,10 +30,10 @@ public class VoteController {
     private final VoteService voteService;
 
     @GetMapping("/by-date")
-    public VoteTo getByUserIdAndLocalDate(@AuthenticationPrincipal AuthUser authUser,
+    public ResponseEntity<VoteTo> getByUserIdAndLocalDate(@AuthenticationPrincipal AuthUser authUser,
                                           @RequestParam("local-date") @Nullable LocalDate localDate) {
         log.info("user {}, localDate {}", authUser.id(), localDate);
-        return voteService.getByUserIdAndLocalDate(authUser.id(), localDate);
+        return ResponseEntity.ok(voteService.getByUserIdAndLocalDate(authUser.id(), localDate));
     }
 
     @GetMapping("/{id}")

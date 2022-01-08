@@ -16,6 +16,7 @@ public class VoteTestData {
     public static final MatcherFactory.Matcher<VoteTo> VOTE_TO_MATCHER =
             MatcherFactory.usingEqualsComparator(VoteTo.class);
 
+    public static final int NOT_FOUND_VOTE = 0;
     public static final int VOTE_ID_1 = 1;
     public static final int VOTE_ID_2 = 2;
     public static final int VOTE_ID_3 = 3;

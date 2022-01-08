@@ -43,6 +43,24 @@ class VoteControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    void getByUserIdAndInvalidLocalDate() throws Exception {
+        perform(MockMvcRequestBuilders.get(VOTE_URL + "/by-date")
+                .param("local-date", "2021-122")
+                .with(userHttpBasic(user)))
+                .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
+
+    @Test
+    void getByUserIdAndNotFoundLocalDate() throws Exception {
+        perform(MockMvcRequestBuilders.get(VOTE_URL + "/by-date")
+                .param("local-date", "1999-12-12")
+                .with(userHttpBasic(user)))
+                .andExpect(status().isUnprocessableEntity())
+                .andDo(print());
+    }
+
+    @Test
     void getByIdAndUserId() throws Exception {
         perform(MockMvcRequestBuilders.get(VOTE_URL + VOTE_ID_1)
                 .with(userHttpBasic(user)))
@@ -51,6 +69,14 @@ class VoteControllerTest extends AbstractControllerTest {
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(VOTE_TO_MATCHER.contentJson(
                         new VoteTo(VOTE_ID_1, date_1, LocalTime.of(6, 1), RESTAURANT_ID_1)));
+    }
+
+    @Test
+    void getByNotFoundIdAndUserId() throws Exception {
+        perform(MockMvcRequestBuilders.get(VOTE_URL + NOT_FOUND_VOTE)
+                .with(userHttpBasic(user)))
+                .andExpect(status().isUnprocessableEntity())
+                .andDo(print());
     }
 
     @Test
