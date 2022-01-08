@@ -20,7 +20,8 @@ public interface RestaurantRepository extends BaseRepository<Restaurant> {
     List<RestaurantTo> getAllByDate(LocalDate localDate);
 
     @Query("SELECT new com.strelchenya.restaurantvoting.to.RestaurantTo(r.id, r.title, count(v)) " +
-            "FROM Restaurant r LEFT OUTER JOIN Vote v ON r.id = v.restaurant.id " +
-            "WHERE r.id=:id ")
+            "FROM Restaurant r JOIN FETCH Vote v ON r.id = v.restaurant.id " +
+            "WHERE r.id=:id " +
+            "GROUP BY r.id")
     Optional<RestaurantTo> get(int id);
 }
