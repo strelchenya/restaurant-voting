@@ -46,7 +46,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
 
     @Test
     void getMenuByEmptyDate() throws Exception {
-        perform(MockMvcRequestBuilders.get(ADMIN_RESTAURANT_REST_URL + RESTAURANT_ID_1 + DISHES_REST_URL + "/by")
+        perform(MockMvcRequestBuilders.get(ADMIN_RESTAURANT_REST_URL + RESTAURANT_ID_1 + DISHES_REST_URL + "/menu-by")
                 .param("local-date", "")
                 .with(userHttpBasic(admin)))
                 .andExpect(status().isBadRequest())
@@ -55,7 +55,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
 
     @Test
     void getMenuByInvalidDate() throws Exception {
-        perform(MockMvcRequestBuilders.get(ADMIN_RESTAURANT_REST_URL + RESTAURANT_ID_1 + DISHES_REST_URL + "/by")
+        perform(MockMvcRequestBuilders.get(ADMIN_RESTAURANT_REST_URL + RESTAURANT_ID_1 + DISHES_REST_URL + "/menu-by")
                 .param("local-date", "2000-12-12")
                 .with(userHttpBasic(admin)))
                 .andExpect(status().isOk())
@@ -64,7 +64,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
 
     @Test
     void getMenuByDate() throws Exception {
-        perform(MockMvcRequestBuilders.get(ADMIN_RESTAURANT_REST_URL + RESTAURANT_ID_1 + DISHES_REST_URL + "/by")
+        perform(MockMvcRequestBuilders.get(ADMIN_RESTAURANT_REST_URL + RESTAURANT_ID_1 + DISHES_REST_URL + "/menu-by")
                 .param("local-date", "2021-12-12")
                 .with(userHttpBasic(admin)))
                 .andExpect(status().isOk())
