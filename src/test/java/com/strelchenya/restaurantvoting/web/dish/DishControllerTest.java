@@ -65,4 +65,42 @@ class DishControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print());
     }
+
+    @Test
+    void getAllMenusByDate() throws Exception {
+        perform(MockMvcRequestBuilders.get(RESTAURANTS_REST_URL + DISHES_REST_URL + "/menus-by")
+                .param("local-date", "2021-12-12")
+                .with(userHttpBasic(user)))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(DISH_TO_MATCHER.contentJson(allMenusForDay));
+    }
+
+    @Test
+    void getAllMenusByEmptyDate() throws Exception {
+        perform(MockMvcRequestBuilders.get(RESTAURANTS_REST_URL + DISHES_REST_URL + "/menus-by")
+                .param("local-date", "")
+                .with(userHttpBasic(user)))
+                .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
+
+    @Test
+    void getAllMenusByInvalidDate() throws Exception {
+        perform(MockMvcRequestBuilders.get(RESTAURANTS_REST_URL + DISHES_REST_URL + "/menus-by")
+                .param("local-date", "2000-12-12")
+                .with(userHttpBasic(user)))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @Test
+    void getAllMenusBySpaceDate() throws Exception {
+        perform(MockMvcRequestBuilders.get(RESTAURANTS_REST_URL + DISHES_REST_URL + "/menus-by")
+                .param("local-date", " ")
+                .with(userHttpBasic(user)))
+                .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
 }

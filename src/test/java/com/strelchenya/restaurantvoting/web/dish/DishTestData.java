@@ -1,6 +1,7 @@
 package com.strelchenya.restaurantvoting.web.dish;
 
 import com.strelchenya.restaurantvoting.model.Dish;
+import com.strelchenya.restaurantvoting.to.DishTo;
 import com.strelchenya.restaurantvoting.web.MatcherFactory;
 
 import java.time.LocalDate;
@@ -12,6 +13,9 @@ import static com.strelchenya.restaurantvoting.web.vote.VoteTestData.date_2;
 public class DishTestData {
     public static final MatcherFactory.Matcher<Dish> DISH_MATCHER =
             MatcherFactory.usingIgnoringFieldsComparator(Dish.class, "restaurant");
+
+    public static final MatcherFactory.Matcher<DishTo> DISH_TO_MATCHER =
+            MatcherFactory.usingEqualsComparator(DishTo.class);
 
     public static final int NOT_FOUND_DISH = 0;
     public static final int DISH_ID_1 = 1;
@@ -35,11 +39,24 @@ public class DishTestData {
     public static final Dish dish_17 = new Dish(17, "Cheesy tuna pasta", 119, date_2);
     public static final Dish dish_18 = new Dish(18, "Tarte tatin", 113, date_2);
 
+    public static final DishTo dishTo_1 = new DishTo(DISH_ID_1, "Just Lunch", 211, date_1, 1);
+    public static final DishTo dishTo_2 = new DishTo(2, "Steak frites", 244, date_1, 1);
+    public static final DishTo dishTo_3 = new DishTo(3, "Chicken confit", 135, date_1, 1);
+    public static final DishTo dishTo_4 = new DishTo(4, "French onion soup", 1251, date_1, 2);
+    public static final DishTo dishTo_5 = new DishTo(5, "Bouillabaisse", 742, date_1, 2);
+    public static final DishTo dishTo_6 = new DishTo(6, "Salmon en papillote", 3425, date_1, 2);
+    public static final DishTo dishTo_7 = new DishTo(7, "Quiche Lorraine", 1125, date_1, 3);
+    public static final DishTo dishTo_8 = new DishTo(8, "Croque monsieur", 980, date_1, 3);
+    public static final DishTo dishTo_9 = new DishTo(9, "Boeuf bourguignon", 4423, date_1, 3);
+
     public static final List<Dish> menu = List.of(dish_3, dish_1, dish_2);
     public static final List<Dish> dishesRestaurant = List.of(dish_10, dish_11, dish_12, dish_1,
             dish_2, dish_3);
 
-    protected static Dish getNew(){
+    public static final List<DishTo> allMenusForDay = List.of(dishTo_1, dishTo_2, dishTo_3, dishTo_4, dishTo_5,
+            dishTo_6, dishTo_7, dishTo_8, dishTo_9);
+
+    protected static Dish getNew() {
         return new Dish(null, "newDish", 9999, LocalDate.now());
     }
 }
