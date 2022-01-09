@@ -36,7 +36,7 @@ public class AdminDishController {
         return ResponseEntity.ok(dishService.getById(id, restaurantId));
     }
 
-    @GetMapping(value = DISHES_REST_URL + "/menu-by")
+    @GetMapping(value = DISHES_REST_URL + "/by")
     public List<Dish> getMenuByDate(@PathVariable int restaurantId,
                                     @NotNull @RequestParam(value = "local-date") LocalDate localDate) {
         log.info("get dishes for restaurant {} on {}", restaurantId, localDate);
