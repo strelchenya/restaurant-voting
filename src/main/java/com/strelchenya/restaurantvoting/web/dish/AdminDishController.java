@@ -31,9 +31,9 @@ public class AdminDishController {
     private final DishService dishService;
 
     @GetMapping(value = DISHES_REST_URL + "/{id}")
-    public ResponseEntity<Dish> getById(@PathVariable int id, @PathVariable int restaurantId) {
+    public Dish getById(@PathVariable int id, @PathVariable int restaurantId) {
         log.info("get dish {} for restaurant {}", id, restaurantId);
-        return ResponseEntity.ok(dishService.getById(id, restaurantId));
+        return dishService.getById(id, restaurantId);
     }
 
     @GetMapping(value = DISHES_REST_URL + "/by")
