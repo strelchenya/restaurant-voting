@@ -4,6 +4,7 @@ import com.strelchenya.restaurantvoting.error.NotFoundException;
 import com.strelchenya.restaurantvoting.model.Dish;
 import com.strelchenya.restaurantvoting.repository.DishRepository;
 import com.strelchenya.restaurantvoting.repository.RestaurantRepository;
+import com.strelchenya.restaurantvoting.to.DishTo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,5 +53,9 @@ public class DishService {
         dish.setRestaurant(restaurantRepository.findById(restaurantId)
                 .orElseThrow(() -> new NotFoundException("not found restaurant " + restaurantId)));
         return checkNotFoundWithId(dishRepository.save(dish), id);
+    }
+
+    public List<DishTo> getAllMenusByLocalDate(LocalDate localDate) {
+        return dishRepository.getAllMenusByLocalDate(localDate);
     }
 }
