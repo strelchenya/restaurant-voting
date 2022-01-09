@@ -18,7 +18,7 @@ import java.util.List;
 import static com.strelchenya.restaurantvoting.util.validation.ValidationUtil.*;
 
 @RequiredArgsConstructor
-@Service
+@Service("restaurantService")
 @Transactional(readOnly = true)
 @CacheConfig(cacheNames = "restaurants")
 public class RestaurantService {
@@ -30,6 +30,7 @@ public class RestaurantService {
                 .orElseThrow(() -> new NotFoundException("not found restaurant by id " + id));
     }
 
+    @Cacheable
     public List<RestaurantTo> getAllByDate(LocalDate localDate) {
         return restaurantRepository.getAllByDate(localDate);
     }
