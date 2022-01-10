@@ -28,7 +28,7 @@ public class DishTo extends BaseTo {
     @NotNull
     LocalDate localDate;
 
-    @Range(min = 0)
+    @Range(min = 1)
     @NotNull
     Integer restaurantId;
 

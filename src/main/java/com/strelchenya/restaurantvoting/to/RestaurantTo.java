@@ -4,6 +4,7 @@ import com.strelchenya.restaurantvoting.util.validation.NoHtml;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.Value;
+import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -19,6 +20,7 @@ public class RestaurantTo extends BaseTo {
     @NoHtml
     String title;
 
+    @Range(min = 0)
     @NotNull
     Long voices;
 
