@@ -16,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping(value = RestaurantController.RESTAURANTS_REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class RestaurantController {
-    public static final String RESTAURANTS_REST_URL = "/api/v1/profile/restaurants";
+    public static final String RESTAURANTS_REST_URL = "/api/v1/restaurants";
 
     private final RestaurantService restaurantService;
 
