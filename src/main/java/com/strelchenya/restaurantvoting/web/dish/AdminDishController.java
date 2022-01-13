@@ -23,7 +23,7 @@ import static com.strelchenya.restaurantvoting.web.restaurant.AdminRestaurantCon
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = ADMIN_RESTAURANT_REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-@Tag(name = "Dish Controller", description = "Controller for editing dishes by admin.")
+@Tag(name = "Admin Dish Controller", description = "Controller for editing dishes by admin.")
 public class AdminDishController {
     public static final String DISHES_REST_URL = "/{restaurantId}/dishes";
 
