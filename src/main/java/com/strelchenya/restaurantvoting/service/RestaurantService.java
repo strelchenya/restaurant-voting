@@ -24,10 +24,16 @@ import static com.strelchenya.restaurantvoting.util.validation.ValidationUtil.*;
 public class RestaurantService {
     private final RestaurantRepository restaurantRepository;
 
-    @Cacheable
+    @Cacheable(key = "#localDate")
     public RestaurantTo getByIdAndLocalDate(int id, LocalDate localDate) {
         return restaurantRepository.getByIdAndLocalDate(id, localDate)
                 .orElseThrow(() -> new NotFoundException("not found restaurant by id " + id + " date: " + localDate));
+    }
+
+    @Cacheable(key = "#id")
+    public RestaurantTo getById(int id) {
+        return restaurantRepository.getById(id)
+                .orElseThrow(() -> new NotFoundException("not found restaurant by id " + id));
     }
 
     @Cacheable
