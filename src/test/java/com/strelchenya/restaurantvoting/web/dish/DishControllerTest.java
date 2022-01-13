@@ -8,7 +8,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static com.strelchenya.restaurantvoting.web.TestUtil.userHttpBasic;
 import static com.strelchenya.restaurantvoting.web.dish.DishTestData.*;
+import static com.strelchenya.restaurantvoting.web.restaurant.RestaurantTestData.NOT_FOUND_RESTAURANT;
 import static com.strelchenya.restaurantvoting.web.restaurant.RestaurantTestData.RESTAURANT_ID_1;
+import static com.strelchenya.restaurantvoting.web.user.UserTestData.admin;
 import static com.strelchenya.restaurantvoting.web.user.UserTestData.user;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -101,6 +103,24 @@ class DishControllerTest extends AbstractControllerTest {
                 .param("local-date", " ")
                 .with(userHttpBasic(user)))
                 .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
+
+    @Test
+    void getAllForRestaurant() throws Exception {
+        perform(MockMvcRequestBuilders.get(RESTAURANTS_REST_URL + RESTAURANT_ID_1 + DISHES_REST_URL)
+                .with(userHttpBasic(admin)))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(DISH_MATCHER.contentJson(dishesRestaurant));
+    }
+
+    @Test
+    void getAllForNotFoundRestaurant() throws Exception {
+        perform(MockMvcRequestBuilders.get(RESTAURANTS_REST_URL + NOT_FOUND_RESTAURANT + DISHES_REST_URL)
+                .with(userHttpBasic(admin)))
+                .andExpect(status().isOk())
                 .andDo(print());
     }
 }

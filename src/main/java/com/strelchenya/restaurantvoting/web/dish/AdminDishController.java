@@ -1,7 +1,6 @@
 package com.strelchenya.restaurantvoting.web.dish;
 
 import com.strelchenya.restaurantvoting.model.Dish;
-import com.strelchenya.restaurantvoting.model.User;
 import com.strelchenya.restaurantvoting.service.DishService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,10 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.net.URI;
-import java.time.LocalDate;
-import java.util.List;
 
 import static com.strelchenya.restaurantvoting.util.validation.ValidationUtil.assureIdConsistent;
 import static com.strelchenya.restaurantvoting.util.validation.ValidationUtil.checkNew;
@@ -29,25 +25,6 @@ public class AdminDishController {
     public static final String DISHES_REST_URL = "/{restaurantId}/dishes";
 
     private final DishService dishService;
-
-    @GetMapping(value = DISHES_REST_URL + "/{id}")
-    public Dish getById(@PathVariable int id, @PathVariable int restaurantId) {
-        log.info("get dish {} for restaurant {}", id, restaurantId);
-        return dishService.getById(id, restaurantId);
-    }
-
-    @GetMapping(value = DISHES_REST_URL + "/by")
-    public List<Dish> getMenuByDate(@PathVariable int restaurantId,
-                                    @NotNull @RequestParam(value = "local-date") LocalDate localDate) {
-        log.info("get dishes for restaurant {} on {}", restaurantId, localDate);
-        return dishService.getMenuByDate(restaurantId, localDate);
-    }
-
-    @GetMapping(value = DISHES_REST_URL)
-    public List<Dish> getAll(@PathVariable int restaurantId) {
-        log.info("get all dishes for restaurant {}", restaurantId);
-        return dishService.getAll(restaurantId);
-    }
 
     @PostMapping(value = DISHES_REST_URL, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Dish> create(@Valid @RequestBody Dish dish, @PathVariable int restaurantId) {

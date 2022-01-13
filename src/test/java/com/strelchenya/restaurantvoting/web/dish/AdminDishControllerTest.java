@@ -18,78 +18,12 @@ import static com.strelchenya.restaurantvoting.web.user.UserTestData.ADMIN_ID;
 import static com.strelchenya.restaurantvoting.web.user.UserTestData.admin;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class AdminDishControllerTest extends AbstractControllerTest {
 
     private static final String ADMIN_RESTAURANT_REST_URL = AdminRestaurantController.ADMIN_RESTAURANT_REST_URL + '/';
     private static final String DISHES_REST_URL = "/dishes/";
-
-    @Test
-    void getById() throws Exception {
-        perform(MockMvcRequestBuilders.get(ADMIN_RESTAURANT_REST_URL + RESTAURANT_ID_1 + DISHES_REST_URL + DISH_ID_1)
-                .with(userHttpBasic(admin)))
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(DISH_MATCHER.contentJson(dish_1));
-    }
-
-    @Test
-    void getByInvalidId() throws Exception {
-        perform(MockMvcRequestBuilders.get(ADMIN_RESTAURANT_REST_URL + RESTAURANT_ID_1 + DISHES_REST_URL + NOT_FOUND_DISH)
-                .with(userHttpBasic(admin)))
-                .andExpect(status().isUnprocessableEntity())
-                .andDo(print());
-    }
-
-    @Test
-    void getMenuByEmptyDate() throws Exception {
-        perform(MockMvcRequestBuilders.get(ADMIN_RESTAURANT_REST_URL + RESTAURANT_ID_1 + DISHES_REST_URL + "/by")
-                .param("local-date", "")
-                .with(userHttpBasic(admin)))
-                .andExpect(status().isBadRequest())
-                .andDo(print());
-    }
-
-    @Test
-    void getMenuByInvalidDate() throws Exception {
-        perform(MockMvcRequestBuilders.get(ADMIN_RESTAURANT_REST_URL + RESTAURANT_ID_1 + DISHES_REST_URL + "/by")
-                .param("local-date", "2000-12-12")
-                .with(userHttpBasic(admin)))
-                .andExpect(status().isOk())
-                .andDo(print());
-    }
-
-    @Test
-    void getMenuByDate() throws Exception {
-        perform(MockMvcRequestBuilders.get(ADMIN_RESTAURANT_REST_URL + RESTAURANT_ID_1 + DISHES_REST_URL + "/by")
-                .param("local-date", "2021-12-12")
-                .with(userHttpBasic(admin)))
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(DISH_MATCHER.contentJson(menu));
-    }
-
-    @Test
-    void getAllForRestaurant() throws Exception {
-        perform(MockMvcRequestBuilders.get(ADMIN_RESTAURANT_REST_URL + RESTAURANT_ID_1 + DISHES_REST_URL)
-                .with(userHttpBasic(admin)))
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(DISH_MATCHER.contentJson(dishesRestaurant));
-    }
-
-    @Test
-    void getAllForNotFoundRestaurant() throws Exception {
-        perform(MockMvcRequestBuilders.get(ADMIN_RESTAURANT_REST_URL + NOT_FOUND_RESTAURANT + DISHES_REST_URL)
-                .with(userHttpBasic(admin)))
-                .andExpect(status().isOk())
-                .andDo(print());
-    }
 
     @Test
     void delete() throws Exception {

@@ -40,4 +40,10 @@ public class DishController {
         log.info("get a menu for each restaurant by date {}", localDate);
         return dishService.getAllMenusByLocalDate(localDate);
     }
+
+    @GetMapping(value = DISHES_REST_URL)
+    public List<Dish> getAll(@PathVariable int restaurantId) {
+        log.info("get all dishes for restaurant {}", restaurantId);
+        return dishService.getAll(restaurantId);
+    }
 }
