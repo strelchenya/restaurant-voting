@@ -36,6 +36,26 @@ class RestaurantControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    void getByIdAndLocalDate() throws Exception {
+        perform(MockMvcRequestBuilders.get(RESTAURANTS_REST_URL + RESTAURANT_ID_2 + "/by")
+                .param("local-date", "2021-12-12")
+                .with(userHttpBasic(user)))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(RESTAURANT_TO_MATCHER.contentJson(new RestaurantTo(RESTAURANT_ID_2, "Burger Empire", 1L)));
+    }
+
+    @Test
+    void getNotFoundByIdAndLocalDate() throws Exception {
+        perform(MockMvcRequestBuilders.get(RESTAURANTS_REST_URL + RESTAURANT_ID_2 + "/by")
+                .param("local-date", "2000-12-12")
+                .with(userHttpBasic(user)))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @Test
     void getAllByDate() throws Exception {
         perform(MockMvcRequestBuilders.get(RESTAURANTS_REST_URL + "/by")
                 .param("local-date", "2021-12-12")
