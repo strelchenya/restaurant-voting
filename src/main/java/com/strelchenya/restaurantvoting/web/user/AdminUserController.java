@@ -1,6 +1,8 @@
 package com.strelchenya.restaurantvoting.web.user;
 
 import com.strelchenya.restaurantvoting.model.User;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -24,16 +26,19 @@ import static com.strelchenya.restaurantvoting.util.validation.ValidationUtil.ch
 @RequestMapping(value = AdminUserController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 @CacheConfig(cacheNames = "users")
+@Tag(name = "Admin Controller", description = "Admin controller for managing users.")
 public class AdminUserController extends AbstractUserController {
 
     static final String REST_URL = "/api/v1/admin/users";
 
+    @Operation(summary = "Get user", description = "Getting user admin.")
     @Override
     @GetMapping("/{id}")
     public ResponseEntity<User> get(@PathVariable int id) {
         return super.get(id);
     }
 
+    @Operation(summary = "Deleting a user", description = "Removing a user by admin.")
     @Override
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -41,6 +46,7 @@ public class AdminUserController extends AbstractUserController {
         super.delete(id);
     }
 
+    @Operation(summary = "Get all users", description = "Get all admin users sorted by name and email.")
     @GetMapping
     @Cacheable
     public List<User> getAll() {
@@ -48,6 +54,7 @@ public class AdminUserController extends AbstractUserController {
         return repository.findAll(Sort.by(Sort.Direction.ASC, "name", "email"));
     }
 
+    @Operation(summary = "User creation", description = "Creating a new user by admin.")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @CacheEvict(allEntries = true)
     public ResponseEntity<User> createWithLocation(@Valid @RequestBody User user) {
@@ -60,6 +67,7 @@ public class AdminUserController extends AbstractUserController {
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
+    @Operation(summary = "User update", description = "Update user by admin.")
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CacheEvict(allEntries = true)
@@ -69,12 +77,14 @@ public class AdminUserController extends AbstractUserController {
         prepareAndSave(user);
     }
 
+    @Operation(summary = "Get user by email", description = "Get user by email admin.")
     @GetMapping("/by-email")
     public ResponseEntity<User> getByEmail(@RequestParam String email) {
         log.info("getByEmail {}", email);
         return ResponseEntity.of(repository.getByEmail(email));
     }
 
+    @Operation(summary = "Change user activity", description = "Changing user activity by admin.")
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
