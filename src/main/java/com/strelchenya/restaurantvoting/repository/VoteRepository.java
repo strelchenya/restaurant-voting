@@ -32,8 +32,9 @@ public interface VoteRepository extends BaseRepository<Vote> {
 
     @Transactional
     @Modifying
-    @Query("DELETE FROM Vote v WHERE v.id=:id and v.user.id=:userId and v.localDate=CURRENT_DATE")
-    int deleteByUserId(int userId, int id);
+    @Query("DELETE FROM Vote v " +
+            "WHERE v.id=:id AND v.user.id=:userId AND v.localDate=CURRENT_DATE AND (:hour < 11)")
+    int deleteByUserId(int userId, int id, int hour);
 
     @Query("SELECT v FROM Vote v WHERE v.id =:id AND v.user.id =:userId")
     Optional<LocalDate> checkDate(int id, int userId);

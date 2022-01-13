@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import static com.strelchenya.restaurantvoting.util.ToUtil.asVote;
@@ -44,7 +45,9 @@ public class VoteService {
 
     @Transactional
     public void deleteByUserId(int userId, int id) {
-        checkNotFoundWithId(voteRepository.deleteByUserId(userId, id) != 0, id);
+        int hour = LocalTime.now().getHour();
+        log.info("Number of hours: {}", hour);
+        checkNotFoundWithId(voteRepository.deleteByUserId(userId, id, hour) != 0, id);
     }
 
     @Transactional
