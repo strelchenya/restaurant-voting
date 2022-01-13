@@ -21,9 +21,10 @@ public class RestaurantController {
     private final RestaurantService restaurantService;
 
     @GetMapping("/{id}")
-    public RestaurantTo getById(@PathVariable int id) {
-        log.info("get restaurant by id {}", id);
-        return restaurantService.getById(id);
+    public RestaurantTo getByIdAndLocalDate(@PathVariable int id,
+                                            @NotNull @RequestParam(value = "local-date") LocalDate localDate) {
+        log.info("get restaurant by id {}, date {}", id, localDate);
+        return restaurantService.getByIdAndLocalDate(id, localDate);
     }
 
     @GetMapping("/by")

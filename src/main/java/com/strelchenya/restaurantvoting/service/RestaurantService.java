@@ -25,9 +25,9 @@ public class RestaurantService {
     private final RestaurantRepository restaurantRepository;
 
     @Cacheable
-    public RestaurantTo getById(int id) {
-        return restaurantRepository.get(id)
-                .orElseThrow(() -> new NotFoundException("not found restaurant by id " + id));
+    public RestaurantTo getByIdAndLocalDate(int id, LocalDate localDate) {
+        return restaurantRepository.getByIdAndLocalDate(id, localDate)
+                .orElseThrow(() -> new NotFoundException("not found restaurant by id " + id + " date: " + localDate));
     }
 
     @Cacheable

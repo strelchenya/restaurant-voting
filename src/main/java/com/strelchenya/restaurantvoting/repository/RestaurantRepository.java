@@ -21,7 +21,6 @@ public interface RestaurantRepository extends BaseRepository<Restaurant> {
 
     @Query("SELECT new com.strelchenya.restaurantvoting.to.RestaurantTo(r.id, r.title, count(v)) " +
             "FROM Restaurant r JOIN FETCH Vote v ON r.id = v.restaurant.id " +
-            "WHERE r.id=:id " +
-            "GROUP BY r.id")
-    Optional<RestaurantTo> get(int id);
+            "WHERE r.id=:id AND v.localDate=:localDate")
+    Optional<RestaurantTo> getByIdAndLocalDate(int id, LocalDate localDate);
 }
