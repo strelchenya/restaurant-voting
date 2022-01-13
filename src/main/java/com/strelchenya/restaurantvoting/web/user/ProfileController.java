@@ -4,6 +4,8 @@ import com.strelchenya.restaurantvoting.model.User;
 import com.strelchenya.restaurantvoting.to.UserTo;
 import com.strelchenya.restaurantvoting.util.UserUtil;
 import com.strelchenya.restaurantvoting.web.AuthUser;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -25,20 +27,24 @@ import static com.strelchenya.restaurantvoting.util.validation.ValidationUtil.ch
 @RequestMapping(value = ProfileController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 @CacheConfig(cacheNames = "users")
+@Tag(name = "Profile Controller", description = "User profile controller.")
 public class ProfileController extends AbstractUserController {
     static final String REST_URL = "/api/v1/profile";
 
+    @Operation(summary = "Get a profile", description = "Get the profile of an authenticated user.")
     @GetMapping
     public User get(@AuthenticationPrincipal AuthUser authUser) {
         return authUser.getUser();
     }
 
+    @Operation(summary = "Delete profile", description = "Delete authenticated user profile.")
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@AuthenticationPrincipal AuthUser authUser) {
         super.delete(authUser.id());
     }
 
+    @Operation(summary = "User registration", description = "User registration.")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @CacheEvict(allEntries = true)
@@ -51,6 +57,7 @@ public class ProfileController extends AbstractUserController {
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
+    @Operation(summary = "Profile update", description = "User profile update.")
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
