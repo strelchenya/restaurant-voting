@@ -149,12 +149,14 @@ class VoteControllerTest extends AbstractControllerTest {
 
     @Test
     void deleteByUserId() throws Exception {
-        perform(MockMvcRequestBuilders.delete(VOTE_URL + VOTE_ID_5)
-                .with(userHttpBasic(user)))
-                .andExpect(status().isNoContent())
-                .andDo(print());
+        if (LocalTime.now().isBefore(LocalTime.of(11, 0))) {
+            perform(MockMvcRequestBuilders.delete(VOTE_URL + VOTE_ID_5)
+                    .with(userHttpBasic(user)))
+                    .andExpect(status().isNoContent())
+                    .andDo(print());
 
-        assertThrows(NotFoundException.class, () -> voteService.getByIdAndUserId(VOTE_ID_5, USER_ID));
+            assertThrows(NotFoundException.class, () -> voteService.getByIdAndUserId(VOTE_ID_5, USER_ID));
+        }
     }
 
     @Test
