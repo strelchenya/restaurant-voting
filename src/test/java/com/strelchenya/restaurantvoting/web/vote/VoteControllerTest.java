@@ -160,6 +160,16 @@ class VoteControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    void deleteByUserIdAfterTime() throws Exception {
+        if (LocalTime.now().isAfter(LocalTime.of(11, 0))) {
+            perform(MockMvcRequestBuilders.delete(VOTE_URL + VOTE_ID_5)
+                    .with(userHttpBasic(user)))
+                    .andExpect(status().isUnprocessableEntity())
+                    .andDo(print());
+        }
+    }
+
+    @Test
     void deleteNotToday() throws Exception {
         perform(MockMvcRequestBuilders.delete(VOTE_URL + VOTE_ID_1)
                 .with(userHttpBasic(user)))
