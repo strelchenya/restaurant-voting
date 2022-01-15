@@ -102,17 +102,15 @@ class VoteControllerTest extends AbstractControllerTest {
 
     @Test
     @Transactional(propagation = Propagation.NEVER)
-    void createWhenTimeIsUp() throws Exception {
+    void createDuplicate() throws Exception {
         VoteTo newVoteTo = getNew();
-        if (LocalTime.now().isAfter(LocalTime.of(11, 0))) {
-            perform(MockMvcRequestBuilders.post(VOTE_URL)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .with(userHttpBasic(admin))
-                    .content(JsonUtil.writeValue(newVoteTo)))
-                    .andDo(print())
-                    .andExpect(status().isUnprocessableEntity())
-                    .andExpect(content().string(containsString(GlobalExceptionHandler.EXCEPTION_END_OF_VOTING_TIME)));
-        }
+        perform(MockMvcRequestBuilders.post(VOTE_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(user))
+                .content(JsonUtil.writeValue(newVoteTo)))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(content().string(containsString(GlobalExceptionHandler.EXCEPTION_DUPLICATE_VOTE)));
     }
 
     @Test

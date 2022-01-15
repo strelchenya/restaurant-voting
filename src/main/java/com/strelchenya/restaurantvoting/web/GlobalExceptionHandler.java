@@ -30,13 +30,11 @@ import static org.springframework.boot.web.error.ErrorAttributeOptions.Include.M
 @Slf4j
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public static final String EXCEPTION_DUPLICATE_EMAIL = "User with this email already exists!";
-    public static final String EXCEPTION_END_OF_VOTING_TIME = "Time for voting is over!";
     public static final String EXCEPTION_DUPLICATE_VOTE = "You have already voted!";
     public static final String EXCEPTION_DUPLICATE_DISH = "This restaurant already has this dish on the menu!";
     public static final String EXCEPTION_DUPLICATE_RESTAURANT = "This restaurant already exists!";
 
     private static final Map<String, String> CONTAINS_EXCEPTIONS = Map.of(
-            "END_OF_VOTING_TIME", EXCEPTION_END_OF_VOTING_TIME,
             "VOTE_UNIQUE_USER_DATE_IDX", EXCEPTION_DUPLICATE_VOTE,
             "USER_UNIQUE_EMAIL_IDX", EXCEPTION_DUPLICATE_EMAIL,
             "DISH_UNIQUE_RESTAURANT_TITLE_IDX", EXCEPTION_DUPLICATE_DISH,
