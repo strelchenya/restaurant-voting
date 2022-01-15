@@ -71,14 +71,20 @@ public class VoteService {
     public void update(VoteTo voteTo, int id, int userId) {
         Assert.notNull(voteTo, "vote must not be null!");
         assureIdConsistent(voteTo, id);
+
         if (LocalTime.now().isBefore(END_TIME_CHANGE_VOTE)) {
-            Vote vote = new Vote(id, voteTo.getLocalDate(), voteTo.getLocalTime());
-            vote.setUser(userRepository.findById(userId).orElseThrow(() ->
-                    new NotFoundException("not found user by Id " + userId)));
-            vote.setRestaurant(restaurantRepository.findById(voteTo.getRestaurantId()).orElseThrow(() ->
-                    new NotFoundException("not found restaurant by id " + voteTo.getRestaurantId())));
-            log.info("convert VoteTo to Vote: {}", vote);
-            voteRepository.save(vote);
+            LocalDate checkDate = getByIdAndUserId(id, userId).getLocalDate();
+            if (checkDate.equals(voteTo.getLocalDate())) {
+                Vote vote = new Vote(id, voteTo.getLocalDate(), voteTo.getLocalTime());
+                vote.setUser(userRepository.findById(userId).orElseThrow(() ->
+                        new NotFoundException("not found user by Id " + userId)));
+                vote.setRestaurant(restaurantRepository.findById(voteTo.getRestaurantId()).orElseThrow(() ->
+                        new NotFoundException("not found restaurant by id " + voteTo.getRestaurantId())));
+                log.info("convert VoteTo to Vote: {}", vote);
+                voteRepository.save(vote);
+            } else {
+                throw new IllegalRequestDataException("Voting can only be changed today!");
+            }
         } else {
             throw new IllegalRequestDataException("You can only upgrade your voice until 11:00 a.m.");
         }
