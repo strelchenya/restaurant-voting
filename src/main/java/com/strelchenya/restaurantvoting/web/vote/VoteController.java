@@ -54,7 +54,7 @@ public class VoteController {
         return voteService.getAll(authUser.id());
     }
 
-    @Operation(summary = "Create voice", description = "Creates a new voice up to 11 a.m.")
+    @Operation(summary = "Create voice", description = "Creating a new voice throughout the day.")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<VoteTo> create(@Valid @RequestBody VoteTo voteTo,
                                          @AuthenticationPrincipal AuthUser authUser) {
@@ -67,11 +67,12 @@ public class VoteController {
     }
 
     @Operation(summary = "Update voice", description = "Update voice up to 11 a.m.")
-    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@Valid @RequestBody VoteTo voteTo, @AuthenticationPrincipal AuthUser authUser) {
-        log.info("update {} for userId {}", voteTo, authUser.id());
-        voteService.update(voteTo, authUser.id());
+    public void update(@Valid @RequestBody VoteTo voteTo, @PathVariable int id,
+                       @AuthenticationPrincipal AuthUser authUser) {
+        log.info("update {} with id {} for userId {}", voteTo, id, authUser.id());
+        voteService.update(voteTo, id, authUser.id());
     }
 
     @Operation(summary = "Delete voice", description = "Removes voice up to 11 a.m.")

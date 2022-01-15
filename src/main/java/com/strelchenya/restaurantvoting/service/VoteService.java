@@ -1,5 +1,6 @@
 package com.strelchenya.restaurantvoting.service;
 
+import com.strelchenya.restaurantvoting.error.IllegalRequestDataException;
 import com.strelchenya.restaurantvoting.error.NotFoundException;
 import com.strelchenya.restaurantvoting.model.Vote;
 import com.strelchenya.restaurantvoting.repository.RestaurantRepository;
@@ -25,6 +26,7 @@ import static com.strelchenya.restaurantvoting.util.validation.ValidationUtil.*;
 @Transactional(readOnly = true)
 @Service("voteService")
 public class VoteService {
+    private static final LocalTime END_TIME_CHANGE_VOTE = LocalTime.of(11, 0);
     private final VoteRepository voteRepository;
     private final UserRepository userRepository;
     private final RestaurantRepository restaurantRepository;
@@ -45,9 +47,11 @@ public class VoteService {
 
     @Transactional
     public void deleteByUserId(int userId, int id) {
-        int hour = LocalTime.now().getHour();
-        log.info("Number of hours: {}", hour);
-        checkNotFoundWithId(voteRepository.deleteByUserId(userId, id, hour) != 0, id);
+        if (LocalTime.now().isBefore(END_TIME_CHANGE_VOTE)) {
+            checkNotFoundWithId(voteRepository.deleteByUserId(userId, id) != 0, id);
+        } else {
+            throw new IllegalRequestDataException("You can only delete a voice until 11:00 a.m.");
+        }
     }
 
     @Transactional
@@ -64,21 +68,19 @@ public class VoteService {
     }
 
     @Transactional
-    public void update(VoteTo voteTo, int userId) {
+    public void update(VoteTo voteTo, int id, int userId) {
         Assert.notNull(voteTo, "vote must not be null!");
-        assureIdConsistent(voteTo, voteTo.id());
-
-        LocalDate checkDate = voteRepository.checkDate(voteTo.getId(), userId).orElseThrow(() ->
-                new NotFoundException("not found localDate by Id " + voteTo.getId()));
-
-        if (checkDate.equals(voteTo.getLocalDate())) {
-            Vote vote = new Vote(voteTo.getId(), voteTo.getLocalDate(), voteTo.getLocalTime());
+        assureIdConsistent(voteTo, id);
+        if (LocalTime.now().isBefore(END_TIME_CHANGE_VOTE)) {
+            Vote vote = new Vote(id, voteTo.getLocalDate(), voteTo.getLocalTime());
             vote.setUser(userRepository.findById(userId).orElseThrow(() ->
                     new NotFoundException("not found user by Id " + userId)));
             vote.setRestaurant(restaurantRepository.findById(voteTo.getRestaurantId()).orElseThrow(() ->
                     new NotFoundException("not found restaurant by id " + voteTo.getRestaurantId())));
             log.info("convert VoteTo to Vote: {}", vote);
             voteRepository.save(vote);
+        } else {
+            throw new IllegalRequestDataException("You can only upgrade your voice until 11:00 a.m.");
         }
     }
 }

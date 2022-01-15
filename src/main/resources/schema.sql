@@ -49,7 +49,6 @@ CREATE TABLE vote
     restaurant_id INTEGER NOT NULL,
     user_id       INTEGER NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
-    FOREIGN KEY (restaurant_id) REFERENCES restaurant (id) ON DELETE CASCADE,
-    CONSTRAINT END_OF_VOTING_TIME CHECK (EXTRACT(HOUR FROM local_time) < 11)
+    FOREIGN KEY (restaurant_id) REFERENCES restaurant (id) ON DELETE CASCADE
 );
 CREATE UNIQUE INDEX vote_unique_user_date_idx ON vote (user_id, local_date);

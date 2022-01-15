@@ -117,32 +117,51 @@ class VoteControllerTest extends AbstractControllerTest {
     @Test
     void create() throws Exception {
         VoteTo newVoteTo = getNew();
-        ResultActions action;
-        if (LocalTime.now().isBefore(LocalTime.of(11, 0))) {
-            action = perform(MockMvcRequestBuilders.post(VOTE_URL)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .with(userHttpBasic(admin))
-                    .content(JsonUtil.writeValue(newVoteTo)))
-                    .andExpect(status().isCreated())
-                    .andDo(print());
+        ResultActions action = perform(MockMvcRequestBuilders.post(VOTE_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(admin))
+                .content(JsonUtil.writeValue(newVoteTo)))
+                .andExpect(status().isCreated())
+                .andDo(print());
 
-            VoteTo created = VOTE_TO_MATCHER.readFromJson(action);
-            int newId = created.id();
-            newVoteTo.setId(newId);
-            MatcherFactory.usingIgnoringFieldsComparator(VoteTo.class, "localDate", "localTime")
-                    .assertMatch(created, newVoteTo);
-            MatcherFactory.usingIgnoringFieldsComparator(VoteTo.class, "localDate", "localTime")
-                    .assertMatch(voteService.getByIdAndUserId(newId, ADMIN_ID), newVoteTo);
-        }
+        VoteTo created = VOTE_TO_MATCHER.readFromJson(action);
+        int newId = created.id();
+        newVoteTo.setId(newId);
+        MatcherFactory.usingIgnoringFieldsComparator(VoteTo.class, "localDate", "localTime")
+                .assertMatch(created, newVoteTo);
+        MatcherFactory.usingIgnoringFieldsComparator(VoteTo.class, "localDate", "localTime")
+                .assertMatch(voteService.getByIdAndUserId(newId, ADMIN_ID), newVoteTo);
     }
 
     @Test
     void updateInvalid() throws Exception {
-        VoteTo invalid = new VoteTo(VOTE_ID_1, LocalDate.now(), LocalTime.now(), 3);
-        perform(MockMvcRequestBuilders.put(VOTE_URL)
+        VoteTo invalid = new VoteTo(NOT_FOUND_VOTE, LocalDate.now(), LocalTime.now(), 3);
+        perform(MockMvcRequestBuilders.put(VOTE_URL + VOTE_ID_1)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(invalid))
-                .with(userHttpBasic(admin)))
+                .with(userHttpBasic(user)))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    void updateInvalidWithNull() throws Exception {
+        VoteTo invalid = new VoteTo(VOTE_ID_1, null, null, 3);
+        perform(MockMvcRequestBuilders.put(VOTE_URL + VOTE_ID_1)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(invalid))
+                .with(userHttpBasic(user)))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    void updateNotFoundRestaurant() throws Exception {
+        VoteTo invalid = new VoteTo(VOTE_ID_5, LocalDate.now(), LocalTime.now(), 1);
+        perform(MockMvcRequestBuilders.put(VOTE_URL + VOTE_ID_5)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(invalid))
+                .with(userHttpBasic(user)))
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
     }
