@@ -17,6 +17,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import static com.strelchenya.restaurantvoting.web.TestUtil.userHttpBasic;
+import static com.strelchenya.restaurantvoting.web.restaurant.RestaurantTestData.NOT_FOUND_RESTAURANT;
 import static com.strelchenya.restaurantvoting.web.restaurant.RestaurantTestData.RESTAURANT_ID_1;
 import static com.strelchenya.restaurantvoting.web.user.UserTestData.*;
 import static com.strelchenya.restaurantvoting.web.vote.VoteTestData.*;
@@ -157,7 +158,7 @@ class VoteControllerTest extends AbstractControllerTest {
 
     @Test
     void updateNotFoundRestaurant() throws Exception {
-        VoteTo invalid = new VoteTo(VOTE_ID_5, LocalDate.now(), LocalTime.now(), 1);
+        VoteTo invalid = new VoteTo(VOTE_ID_5, LocalDate.now(), LocalTime.now(), NOT_FOUND_RESTAURANT);
         perform(MockMvcRequestBuilders.put(VOTE_URL + VOTE_ID_5)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(invalid))
