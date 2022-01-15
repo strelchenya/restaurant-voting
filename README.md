@@ -15,7 +15,7 @@ Admin: admin@gmail.com / admin
 ```
 
 ### Task:
-```
+
 Design and implement a REST API using Hibernate/Spring/SpringMVC (or Spring-Boot) without frontend.
 
 The task is:
@@ -34,4 +34,3 @@ Each restaurant provides a new menu each day.
 
 As a result, provide a link to github repository.
 It should contain the code, README.md with API documentation and couple curl commands to test it (better - link to Swagger).
-```
