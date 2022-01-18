@@ -21,12 +21,11 @@ import static com.strelchenya.restaurantvoting.util.validation.ValidationUtil.ch
 @RequiredArgsConstructor
 @Service("dishService")
 @Transactional(readOnly = true)
-@CacheConfig(cacheNames = "dishes")
+@CacheConfig(cacheNames = "menu")
 public class DishService {
     private final DishRepository dishRepository;
     private final RestaurantRepository restaurantRepository;
 
-    @Cacheable
     public Dish getById(int id, int restaurantId) {
         return dishRepository.getByIdAndRestaurant_Id(id, restaurantId)
                 .orElseThrow(() -> new NotFoundException("not found dish " + id + " by restaurant " + restaurantId));
@@ -37,7 +36,6 @@ public class DishService {
         return dishRepository.getMenuByDate(restaurantId, localDate);
     }
 
-    @Cacheable
     public List<Dish> getAll(int restaurantId) {
         return dishRepository.getAll(restaurantId);
     }
@@ -65,7 +63,6 @@ public class DishService {
         return checkNotFoundWithId(dishRepository.save(dish), id);
     }
 
-    @Cacheable("dishTo")
     public List<DishTo> getAllMenusByLocalDate(LocalDate localDate) {
         return dishRepository.getAllMenusByLocalDate(localDate);
     }
