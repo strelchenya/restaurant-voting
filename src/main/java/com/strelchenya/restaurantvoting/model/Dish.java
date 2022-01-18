@@ -2,10 +2,12 @@ package com.strelchenya.restaurantvoting.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.strelchenya.restaurantvoting.util.validation.NoHtml;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -22,17 +24,15 @@ import java.time.LocalDate;
 public class Dish extends BaseEntity {
 
     @Column(name = "title", nullable = false)
-    @Size(min = 2, max = 255)
+    @Size(min = 2, max = 100)
     @NotBlank
     @NoHtml
     private String title;
 
     @Column(name = "price", nullable = false)
-    @Range(min = 10, max = 10000)
-    @NotNull
-    private Integer price;
+    private int price;
 
-    @Column(name = "local_date", columnDefinition = "timestamp default now()", nullable = false)
+    @Column(name = "local_date", columnDefinition = "date default now()", nullable = false)
     @NotNull
     private LocalDate localDate;
 
@@ -42,14 +42,14 @@ public class Dish extends BaseEntity {
     @JsonBackReference(value = "restaurantDish")
     private Restaurant restaurant;
 
-    public Dish(Integer id, String title, Integer price, LocalDate localDate) {
+    public Dish(Integer id, String title, int price, LocalDate localDate) {
         super(id);
         this.title = title;
         this.price = price;
         this.localDate = localDate;
     }
 
-    public Dish(Integer id, String title, Integer price, LocalDate localDate, Restaurant restaurant) {
+    public Dish(Integer id, String title, int price, LocalDate localDate, Restaurant restaurant) {
         super(id);
         this.title = title;
         this.price = price;

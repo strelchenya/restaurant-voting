@@ -14,7 +14,7 @@ CREATE UNIQUE INDEX restaurant_unique_title_idx ON restaurant (title);
 CREATE TABLE dish
 (
     id            INTEGER AUTO_INCREMENT PRIMARY KEY,
-    local_date    DATE DEFAULT now() NOT NULL,
+    local_date    DATE DEFAULT NOW() NOT NULL,
     price         INTEGER            NOT NULL,
     title         VARCHAR(255)       NOT NULL,
     restaurant_id INTEGER            NOT NULL,

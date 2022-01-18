@@ -22,7 +22,7 @@ import java.util.List;
 public class Restaurant extends BaseEntity {
 
     @Column(name = "title", nullable = false)
-    @Size(min = 2, max = 255)
+    @Size(min = 2, max = 100)
     @NotBlank
     @NoHtml
     private String title;
