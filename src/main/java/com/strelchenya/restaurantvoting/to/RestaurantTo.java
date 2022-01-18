@@ -8,9 +8,7 @@ import lombok.Value;
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 public class RestaurantTo extends BaseTo {
-
     String title;
-
     Long voices;
 
     public RestaurantTo(int id, String title, Long voices) {

@@ -40,7 +40,7 @@ class VoteControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(VOTE_TO_MATCHER.contentJson(
-                        new VoteTo(VOTE_ID_1, date_1, LocalTime.of(6, 1), RESTAURANT_ID_1)));
+                        new VoteTo(VOTE_ID_1, date1, LocalTime.of(6, 1), RESTAURANT_ID_1)));
     }
 
     @Test
@@ -69,7 +69,7 @@ class VoteControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(VOTE_TO_MATCHER.contentJson(
-                        new VoteTo(VOTE_ID_1, date_1, LocalTime.of(6, 1), RESTAURANT_ID_1)));
+                        new VoteTo(VOTE_ID_1, date1, LocalTime.of(6, 1), RESTAURANT_ID_1)));
     }
 
     @Test
