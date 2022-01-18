@@ -25,7 +25,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString(callSuper = true, exclude = {"password"})
+@ToString(callSuper = true)
 public class User extends NamedEntity implements HasIdAndEmail, Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
@@ -37,6 +37,7 @@ public class User extends NamedEntity implements HasIdAndEmail, Serializable {
     @NoHtml   // https://stackoverflow.com/questions/17480809
     private String email;
 
+    @ToString.Exclude
     @Column(name = "password", nullable = false)
     @NotBlank
     @Size(min = 5, max = 100)
