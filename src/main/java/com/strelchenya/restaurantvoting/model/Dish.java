@@ -57,7 +57,6 @@ public class Dish extends BaseEntity {
                 ", title='" + title + '\'' +
                 ", price=" + price +
                 ", localDate=" + localDate +
-                ", restaurant=" + restaurant +
                 '}';
     }
 }
