@@ -19,7 +19,6 @@ import static org.hibernate.annotations.OnDeleteAction.CASCADE;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 public class Vote extends BaseEntity {
 
     @org.hibernate.annotations.Generated(GenerationTime.ALWAYS)
@@ -50,6 +49,14 @@ public class Vote extends BaseEntity {
         super(id);
         this.localDate = localDate;
         this.localTime = localTime;
+    }
+
+    public Vote(Integer id, LocalDate localDate, LocalTime localTime, User user, Restaurant restaurant) {
+        super(id);
+        this.localDate = localDate;
+        this.localTime = localTime;
+        this.user = user;
+        this.restaurant = restaurant;
     }
 
     @Override

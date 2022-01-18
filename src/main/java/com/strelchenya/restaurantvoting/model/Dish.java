@@ -19,7 +19,6 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 public class Dish extends BaseEntity {
 
     @Column(name = "title", nullable = false)
@@ -48,6 +47,14 @@ public class Dish extends BaseEntity {
         this.title = title;
         this.price = price;
         this.localDate = localDate;
+    }
+
+    public Dish(Integer id, String title, Integer price, LocalDate localDate, Restaurant restaurant) {
+        super(id);
+        this.title = title;
+        this.price = price;
+        this.localDate = localDate;
+        this.restaurant = restaurant;
     }
 
     @Override

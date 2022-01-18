@@ -17,7 +17,6 @@ import java.util.List;
 @Setter
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 @Table(name = "restaurant", uniqueConstraints = {@UniqueConstraint(columnNames = "title",
         name = "restaurant_unique_title_idx")})
 public class Restaurant extends BaseEntity {
@@ -47,6 +46,13 @@ public class Restaurant extends BaseEntity {
     public Restaurant(Integer id, String title) {
         super(id);
         this.title = title;
+    }
+
+    public Restaurant(Integer id, String title, List<Dish> menu, List<Vote> votes) {
+        super(id);
+        this.title = title;
+        this.menu = menu;
+        this.votes = votes;
     }
 
     @Override
