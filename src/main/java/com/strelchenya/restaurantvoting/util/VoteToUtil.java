@@ -5,7 +5,7 @@ import com.strelchenya.restaurantvoting.to.VoteTo;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
-public class ToUtil {
+public class VoteToUtil {
 
     public static Vote asVote(VoteTo voteTo) {
         return new Vote(voteTo.getLocalDate(), voteTo.getLocalTime(), null, null);

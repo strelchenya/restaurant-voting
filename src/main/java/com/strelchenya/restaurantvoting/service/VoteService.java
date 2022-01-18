@@ -17,8 +17,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-import static com.strelchenya.restaurantvoting.util.ToUtil.asVote;
-import static com.strelchenya.restaurantvoting.util.ToUtil.asVoteTo;
+import static com.strelchenya.restaurantvoting.util.VoteToUtil.asVote;
+import static com.strelchenya.restaurantvoting.util.VoteToUtil.asVoteTo;
 import static com.strelchenya.restaurantvoting.util.validation.ValidationUtil.*;
 
 @Slf4j
