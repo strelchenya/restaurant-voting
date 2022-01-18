@@ -1,7 +1,9 @@
 package com.strelchenya.restaurantvoting.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenerationTime;
 import org.hibernate.annotations.OnDelete;
 
@@ -35,14 +37,12 @@ public class Vote extends BaseEntity {
     @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = CASCADE)
     @NotNull
-    @JsonBackReference(value = "userVote")
     private User user;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = CASCADE)
     @NotNull
-    @JsonBackReference(value = "restaurantVote")
     private Restaurant restaurant;
 
     public Vote(Integer id, LocalDate localDate, LocalTime localTime) {

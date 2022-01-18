@@ -36,7 +36,6 @@ public class Restaurant extends BaseEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     @Fetch(value = FetchMode.SUBSELECT)
-    @JsonManagedReference(value = "restaurantVote")
     private List<Vote> votes;
 
     public Restaurant(Restaurant restaurant) {
