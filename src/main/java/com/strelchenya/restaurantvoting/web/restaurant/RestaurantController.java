@@ -1,6 +1,7 @@
 package com.strelchenya.restaurantvoting.web.restaurant;
 
-import com.strelchenya.restaurantvoting.service.RestaurantService;
+import com.strelchenya.restaurantvoting.error.NotFoundException;
+import com.strelchenya.restaurantvoting.repository.RestaurantRepository;
 import com.strelchenya.restaurantvoting.to.RestaurantTo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -21,13 +22,14 @@ import java.util.List;
 public class RestaurantController {
     public static final String RESTAURANTS_REST_URL = "/api/v1/restaurants";
 
-    private final RestaurantService restaurantService;
+    private final RestaurantRepository restaurantRepository;
 
     @Operation(summary = "Get a restaurant", description = "Get a restaurant with all the menu votes of all time.")
     @GetMapping("/{id}")
     public RestaurantTo getById(@PathVariable int id) {
         log.info("get restaurant by id {}", id);
-        return restaurantService.getById(id);
+        return restaurantRepository.getById(id)
+                .orElseThrow(() -> new NotFoundException("not found restaurant by id " + id));
     }
 
     @Operation(
@@ -38,7 +40,8 @@ public class RestaurantController {
     public RestaurantTo getByIdAndLocalDate(@PathVariable int id,
                                             @NotNull @RequestParam(value = "local-date") LocalDate localDate) {
         log.info("get restaurant by id {}, date {}", id, localDate);
-        return restaurantService.getByIdAndLocalDate(id, localDate);
+        return restaurantRepository.getByIdAndLocalDate(id, localDate)
+                .orElseThrow(() -> new NotFoundException("not found restaurant by id " + id + " date: " + localDate));
     }
 
     @Operation(
@@ -48,6 +51,6 @@ public class RestaurantController {
     @GetMapping("/by")
     public List<RestaurantTo> getAllByDate(@NotNull @RequestParam(value = "local-date") LocalDate localDate) {
         log.info("get all restaurantTos by date {}", localDate);
-        return restaurantService.getAllByDate(localDate);
+        return restaurantRepository.getAllByDate(localDate);
     }
 }

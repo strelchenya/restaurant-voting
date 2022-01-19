@@ -1,6 +1,5 @@
 package com.strelchenya.restaurantvoting.web.restaurant;
 
-import com.strelchenya.restaurantvoting.error.NotFoundException;
 import com.strelchenya.restaurantvoting.model.Restaurant;
 import com.strelchenya.restaurantvoting.util.JsonUtil;
 import com.strelchenya.restaurantvoting.web.AbstractControllerTest;
@@ -12,7 +11,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import static com.strelchenya.restaurantvoting.web.TestUtil.userHttpBasic;
 import static com.strelchenya.restaurantvoting.web.restaurant.RestaurantTestData.*;
 import static com.strelchenya.restaurantvoting.web.user.UserTestData.admin;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -26,8 +24,6 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(admin)))
                 .andExpect(status().isNoContent())
                 .andDo(print());
-
-        assertThrows(NotFoundException.class, () -> restaurantService.getById(RESTAURANT_ID_1));
     }
 
     @Test

@@ -2,7 +2,6 @@ package com.strelchenya.restaurantvoting.web;
 
 import com.strelchenya.restaurantvoting.repository.MenuItemRepository;
 import com.strelchenya.restaurantvoting.repository.RestaurantRepository;
-import com.strelchenya.restaurantvoting.service.RestaurantService;
 import com.strelchenya.restaurantvoting.service.VoteService;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +25,6 @@ public abstract class AbstractControllerTest {
 
     @Autowired
     protected RestaurantRepository restaurantRepository;
-
-    @Autowired
-    protected RestaurantService restaurantService;
 
     @Autowired
     protected VoteService voteService;
