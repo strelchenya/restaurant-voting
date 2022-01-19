@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -20,6 +21,7 @@ import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
 
+import static com.strelchenya.restaurantvoting.util.validation.ValidationUtil.*;
 import static com.strelchenya.restaurantvoting.web.vote.VoteController.VOTE_URL;
 
 @Slf4j
@@ -58,6 +60,8 @@ public class VoteController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<VoteTo> create(@Valid @RequestBody VoteTo voteTo,
                                          @AuthenticationPrincipal AuthUser authUser) {
+        Assert.notNull(voteTo, "vote must not be null!");
+        checkNew(voteTo);
         log.info("save {} for userId {}", voteTo, authUser.id());
         VoteTo created = voteService.create(voteTo, authUser.id());
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
@@ -71,6 +75,8 @@ public class VoteController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@Valid @RequestBody VoteTo voteTo, @PathVariable int id,
                        @AuthenticationPrincipal AuthUser authUser) {
+        Assert.notNull(voteTo, "vote must not be null!");
+        assureIdConsistent(voteTo, id);
         log.info("update {} with id {} for userId {}", voteTo, id, authUser.id());
         voteService.update(voteTo, id, authUser.id());
     }
@@ -80,6 +86,6 @@ public class VoteController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteByUserId(@AuthenticationPrincipal AuthUser authUser, @PathVariable int id) {
         log.info("delete vote {} for userId {}", id, authUser.id());
-        voteService.deleteByUserId(authUser.id(), id);
+        checkNotFoundWithId(voteService.deleteByUserId(authUser.id(), id) != 0, id);
     }
 }

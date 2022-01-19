@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -19,11 +18,9 @@ import java.util.List;
 
 import static com.strelchenya.restaurantvoting.util.VoteToUtil.asVote;
 import static com.strelchenya.restaurantvoting.util.VoteToUtil.asVoteTo;
-import static com.strelchenya.restaurantvoting.util.validation.ValidationUtil.*;
 
 @Slf4j
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 @Service
 public class VoteService {
     private static final LocalTime END_TIME_CHANGE_VOTE = LocalTime.of(11, 0);
@@ -45,10 +42,9 @@ public class VoteService {
         return voteRepository.getAll(userId);
     }
 
-    @Transactional
-    public void deleteByUserId(int userId, int id) {
+    public int deleteByUserId(int userId, int id) {
         if (LocalTime.now().isBefore(END_TIME_CHANGE_VOTE)) {
-            checkNotFoundWithId(voteRepository.deleteByUserId(userId, id) != 0, id);
+            return voteRepository.deleteByUserId(userId, id);
         } else {
             throw new IllegalRequestDataException("You can only delete a voice until 11:00 a.m.");
         }
@@ -56,8 +52,6 @@ public class VoteService {
 
     @Transactional
     public VoteTo create(VoteTo voteTo, int userId) {
-        Assert.notNull(voteTo, "vote must not be null!");
-        checkNew(voteTo);
         Vote vote = asVote(voteTo);
         vote.setUser(userRepository.findById(userId).orElseThrow(() ->
                 new NotFoundException("not found user by Id " + userId)));
@@ -69,9 +63,6 @@ public class VoteService {
 
     @Transactional
     public void update(VoteTo voteTo, int id, int userId) {
-        Assert.notNull(voteTo, "vote must not be null!");
-        assureIdConsistent(voteTo, id);
-
         if (LocalTime.now().isBefore(END_TIME_CHANGE_VOTE)) {
             LocalDate checkDate = getByIdAndUserId(id, userId).getLocalDate();
             if (checkDate.equals(voteTo.getLocalDate())) {
