@@ -20,7 +20,7 @@ CREATE TABLE menu_item
     restaurant_id INTEGER            NOT NULL,
     FOREIGN KEY (restaurant_id) REFERENCES restaurant (id) ON DELETE CASCADE
 );
-CREATE UNIQUE INDEX menu_item_unique_restaurant_title_idx ON menu_item (restaurant_id, title);
+CREATE UNIQUE INDEX menu_item_unique_title_date_idx ON menu_item (title, local_date);
 
 CREATE TABLE users
 (

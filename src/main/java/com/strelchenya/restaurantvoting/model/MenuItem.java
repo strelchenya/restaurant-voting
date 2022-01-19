@@ -16,8 +16,8 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "menu_item", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "title"},
-        name = "menu_item_unique_restaurant_title_idx")})
+@Table(name = "menu_item", uniqueConstraints = {@UniqueConstraint(columnNames = {"title", "local_date"},
+        name = "menu_item_unique_title_date_idx")})
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
