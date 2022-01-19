@@ -16,10 +16,14 @@ public interface MenuItemRepository extends BaseRepository<MenuItem> {
     @Query("SELECT d FROM MenuItem d WHERE d.id=:id")
     Optional<MenuItem> getById(int id);
 
-    @Query("SELECT d from MenuItem d WHERE d.restaurant.id=:restaurantId AND d.localDate = :localDate ORDER BY d.title ASC")
+    @Query("SELECT d FROM MenuItem d " +
+            "WHERE d.restaurant.id=:restaurantId AND d.localDate = :localDate " +
+            "ORDER BY d.title, d.price ASC")
     List<MenuItem> getMenuByDate(int restaurantId, LocalDate localDate);
 
-    @Query("SELECT d FROM MenuItem d WHERE d.restaurant.id=:restaurantId ORDER BY d.localDate DESC")
+    @Query("SELECT d FROM MenuItem d " +
+            "WHERE d.restaurant.id=:restaurantId " +
+            "ORDER BY d.localDate DESC, d.title ASC ")
     List<MenuItem> getAll(int restaurantId);
 
     @Transactional

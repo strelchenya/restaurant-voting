@@ -50,8 +50,8 @@ public class MenuItemTestData {
     public static final MenuItemTo MENU_ITEM_TO_9 = new MenuItemTo(9, "Boeuf bourguignon", 4423, date1, 3);
 
     public static final List<MenuItem> menu = List.of(MENU_ITEM_3, MENU_ITEM_1, MENU_ITEM_2);
-    public static final List<MenuItem> menuItemsRestaurant = List.of(MENU_ITEM_10, MENU_ITEM_11, MENU_ITEM_12, MENU_ITEM_1,
-            MENU_ITEM_2, MENU_ITEM_3);
+    public static final List<MenuItem> menuItemsRestaurant = List.of(MENU_ITEM_10, MENU_ITEM_11, MENU_ITEM_12, MENU_ITEM_3,
+            MENU_ITEM_1, MENU_ITEM_2);
 
     public static final List<MenuItemTo> allMenusForDay = List.of(MENU_ITEM_TO_1, MENU_ITEM_TO_2, MENU_ITEM_TO_3, MENU_ITEM_TO_4, MENU_ITEM_TO_5,
             MENU_ITEM_TO_6, MENU_ITEM_TO_7, MENU_ITEM_TO_8, MENU_ITEM_TO_9);
