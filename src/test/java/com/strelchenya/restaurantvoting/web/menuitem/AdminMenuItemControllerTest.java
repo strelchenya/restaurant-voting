@@ -1,6 +1,6 @@
-package com.strelchenya.restaurantvoting.web.dish;
+package com.strelchenya.restaurantvoting.web.menuitem;
 
-import com.strelchenya.restaurantvoting.model.Dish;
+import com.strelchenya.restaurantvoting.model.MenuItem;
 import com.strelchenya.restaurantvoting.util.JsonUtil;
 import com.strelchenya.restaurantvoting.web.AbstractControllerTest;
 import com.strelchenya.restaurantvoting.web.restaurant.AdminRestaurantController;
@@ -10,29 +10,29 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static com.strelchenya.restaurantvoting.web.TestUtil.userHttpBasic;
-import static com.strelchenya.restaurantvoting.web.dish.DishTestData.*;
+import static com.strelchenya.restaurantvoting.web.menuitem.MenuItemTestData.*;
 import static com.strelchenya.restaurantvoting.web.restaurant.RestaurantTestData.NOT_FOUND_RESTAURANT;
 import static com.strelchenya.restaurantvoting.web.restaurant.RestaurantTestData.RESTAURANT_ID_1;
 import static com.strelchenya.restaurantvoting.web.user.UserTestData.admin;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class AdminDishControllerTest extends AbstractControllerTest {
+class AdminMenuItemControllerTest extends AbstractControllerTest {
 
     private static final String ADMIN_RESTAURANT_REST_URL = AdminRestaurantController.ADMIN_RESTAURANT_REST_URL + '/';
-    private static final String DISHES_REST_URL = "/dishes/";
+    private static final String MENU_ITEMS_REST_URL = "/menu-items/";
 
     @Test
     void delete() throws Exception {
-        perform(MockMvcRequestBuilders.delete(ADMIN_RESTAURANT_REST_URL + RESTAURANT_ID_1 + DISHES_REST_URL + DISH_ID_1)
+        perform(MockMvcRequestBuilders.delete(ADMIN_RESTAURANT_REST_URL + RESTAURANT_ID_1 + MENU_ITEMS_REST_URL + MENU_ITEM_ID_1)
                 .with(userHttpBasic(admin)))
                 .andExpect(status().isNoContent())
                 .andDo(print());
     }
 
     @Test
-    void deleteNotFoundDish() throws Exception {
-        perform(MockMvcRequestBuilders.delete(ADMIN_RESTAURANT_REST_URL + RESTAURANT_ID_1 + DISHES_REST_URL + NOT_FOUND_DISH)
+    void deleteNotFoundMenuItem() throws Exception {
+        perform(MockMvcRequestBuilders.delete(ADMIN_RESTAURANT_REST_URL + RESTAURANT_ID_1 + MENU_ITEMS_REST_URL + NOT_FOUND_MENU_ITEM)
                 .with(userHttpBasic(admin)))
                 .andExpect(status().isUnprocessableEntity())
                 .andDo(print());
@@ -40,52 +40,52 @@ class AdminDishControllerTest extends AbstractControllerTest {
 
     @Test
     void create() throws Exception {
-        Dish newDish = getNew();
+        MenuItem newMenuItem = getNew();
         ResultActions action = perform(
-                MockMvcRequestBuilders.post(ADMIN_RESTAURANT_REST_URL + RESTAURANT_ID_1 + DISHES_REST_URL)
+                MockMvcRequestBuilders.post(ADMIN_RESTAURANT_REST_URL + RESTAURANT_ID_1 + MENU_ITEMS_REST_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .with(userHttpBasic(admin))
-                        .content(JsonUtil.writeValue(newDish)))
+                        .content(JsonUtil.writeValue(newMenuItem)))
                 .andExpect(status().isCreated())
                 .andDo(print());
 
-        Dish created = DISH_MATCHER.readFromJson(action);
+        MenuItem created = MENU_ITEM_MATCHER.readFromJson(action);
         int newId = created.id();
-        newDish.setId(newId);
-        DISH_MATCHER.assertMatch(created, newDish);
-        DISH_MATCHER.assertMatch(dishRepository.getById(newId).get(), newDish);
+        newMenuItem.setId(newId);
+        MENU_ITEM_MATCHER.assertMatch(created, newMenuItem);
+        MENU_ITEM_MATCHER.assertMatch(menuItemRepository.getById(newId).get(), newMenuItem);
     }
 
     @Test
     void createNotFoundRestaurant() throws Exception {
-        Dish newDish = getNew();
-        perform(MockMvcRequestBuilders.post(ADMIN_RESTAURANT_REST_URL + NOT_FOUND_RESTAURANT + DISHES_REST_URL)
+        MenuItem newMenuItem = getNew();
+        perform(MockMvcRequestBuilders.post(ADMIN_RESTAURANT_REST_URL + NOT_FOUND_RESTAURANT + MENU_ITEMS_REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(admin))
-                .content(JsonUtil.writeValue(newDish)))
+                .content(JsonUtil.writeValue(newMenuItem)))
                 .andExpect(status().isUnprocessableEntity())
                 .andDo(print());
     }
 
     @Test
-    void createNewDishWithId() throws Exception {
-        Dish newDish = getNew();
-        newDish.setId(DISH_ID_1);
-        perform(MockMvcRequestBuilders.post(ADMIN_RESTAURANT_REST_URL + RESTAURANT_ID_1 + DISHES_REST_URL)
+    void createNewMenuItemWithId() throws Exception {
+        MenuItem newMenuItem = getNew();
+        newMenuItem.setId(MENU_ITEM_ID_1);
+        perform(MockMvcRequestBuilders.post(ADMIN_RESTAURANT_REST_URL + RESTAURANT_ID_1 + MENU_ITEMS_REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(admin))
-                .content(JsonUtil.writeValue(newDish)))
+                .content(JsonUtil.writeValue(newMenuItem)))
                 .andExpect(status().isUnprocessableEntity())
                 .andDo(print());
     }
 
     @Test
     void update() throws Exception {
-        Dish updatedDish = dishRepository.getById(DISH_ID_1).get();
-        updatedDish.setPrice(999);
-        perform(MockMvcRequestBuilders.put(ADMIN_RESTAURANT_REST_URL + RESTAURANT_ID_1 + DISHES_REST_URL + DISH_ID_1)
+        MenuItem updatedMenuItem = menuItemRepository.getById(MENU_ITEM_ID_1).get();
+        updatedMenuItem.setPrice(999);
+        perform(MockMvcRequestBuilders.put(ADMIN_RESTAURANT_REST_URL + RESTAURANT_ID_1 + MENU_ITEMS_REST_URL + MENU_ITEM_ID_1)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(updatedDish))
+                .content(JsonUtil.writeValue(updatedMenuItem))
                 .with(userHttpBasic(admin)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
@@ -93,11 +93,11 @@ class AdminDishControllerTest extends AbstractControllerTest {
 
     @Test
     void updateNotFound() throws Exception {
-        Dish updatedDish = dishRepository.getById(DISH_ID_1).get();
-        updatedDish.setPrice(999);
-        perform(MockMvcRequestBuilders.put(ADMIN_RESTAURANT_REST_URL + RESTAURANT_ID_1 + DISHES_REST_URL + NOT_FOUND_DISH)
+        MenuItem updatedMenuItem = menuItemRepository.getById(MENU_ITEM_ID_1).get();
+        updatedMenuItem.setPrice(999);
+        perform(MockMvcRequestBuilders.put(ADMIN_RESTAURANT_REST_URL + RESTAURANT_ID_1 + MENU_ITEMS_REST_URL + NOT_FOUND_MENU_ITEM)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(updatedDish))
+                .content(JsonUtil.writeValue(updatedMenuItem))
                 .with(userHttpBasic(admin)))
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());

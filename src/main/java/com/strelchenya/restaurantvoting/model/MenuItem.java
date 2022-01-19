@@ -16,12 +16,12 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "dish", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "title"},
-        name = "dish_unique_restaurant_title_idx")})
+@Table(name = "menu_item", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "title"},
+        name = "menu_item_unique_restaurant_title_idx")})
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Dish extends BaseEntity {
+public class MenuItem extends BaseEntity {
 
     @Column(name = "title", nullable = false)
     @Size(min = 2, max = 100)
@@ -42,14 +42,14 @@ public class Dish extends BaseEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Restaurant restaurant;
 
-    public Dish(Integer id, String title, int price, LocalDate localDate) {
+    public MenuItem(Integer id, String title, int price, LocalDate localDate) {
         super(id);
         this.title = title;
         this.price = price;
         this.localDate = localDate;
     }
 
-    public Dish(Integer id, String title, int price, LocalDate localDate, Restaurant restaurant) {
+    public MenuItem(Integer id, String title, int price, LocalDate localDate, Restaurant restaurant) {
         super(id);
         this.title = title;
         this.price = price;
@@ -59,7 +59,7 @@ public class Dish extends BaseEntity {
 
     @Override
     public String toString() {
-        return "Dish{" +
+        return "MenuItem{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", price=" + price +

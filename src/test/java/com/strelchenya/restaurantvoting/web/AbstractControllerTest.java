@@ -1,6 +1,6 @@
 package com.strelchenya.restaurantvoting.web;
 
-import com.strelchenya.restaurantvoting.repository.DishRepository;
+import com.strelchenya.restaurantvoting.repository.MenuItemRepository;
 import com.strelchenya.restaurantvoting.repository.RestaurantRepository;
 import com.strelchenya.restaurantvoting.service.RestaurantService;
 import com.strelchenya.restaurantvoting.service.VoteService;
@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 @ActiveProfiles("test")
 public abstract class AbstractControllerTest {
     @Autowired
-    protected DishRepository dishRepository;
+    protected MenuItemRepository menuItemRepository;
 
     @Autowired
     protected RestaurantRepository restaurantRepository;

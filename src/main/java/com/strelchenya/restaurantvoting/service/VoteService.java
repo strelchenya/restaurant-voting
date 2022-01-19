@@ -24,7 +24,7 @@ import static com.strelchenya.restaurantvoting.util.validation.ValidationUtil.*;
 @Slf4j
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-@Service("voteService")
+@Service
 public class VoteService {
     private static final LocalTime END_TIME_CHANGE_VOTE = LocalTime.of(11, 0);
     private final VoteRepository voteRepository;

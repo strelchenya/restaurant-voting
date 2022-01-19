@@ -5,9 +5,6 @@ import com.strelchenya.restaurantvoting.model.Restaurant;
 import com.strelchenya.restaurantvoting.repository.RestaurantRepository;
 import com.strelchenya.restaurantvoting.to.RestaurantTo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -18,7 +15,7 @@ import java.util.List;
 import static com.strelchenya.restaurantvoting.util.validation.ValidationUtil.*;
 
 @RequiredArgsConstructor
-@Service("restaurantService")
+@Service
 @Transactional(readOnly = true)
 public class RestaurantService {
     private final RestaurantRepository restaurantRepository;

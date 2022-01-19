@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS user_roles;
 DROP TABLE IF EXISTS vote;
-DROP TABLE IF EXISTS dish;
+DROP TABLE IF EXISTS menu_item;
 DROP TABLE IF EXISTS restaurant;
 DROP TABLE IF EXISTS users;
 
@@ -11,7 +11,7 @@ CREATE TABLE restaurant
 );
 CREATE UNIQUE INDEX restaurant_unique_title_idx ON restaurant (title);
 
-CREATE TABLE dish
+CREATE TABLE menu_item
 (
     id            INTEGER AUTO_INCREMENT PRIMARY KEY,
     local_date    DATE DEFAULT NOW() NOT NULL,
@@ -20,7 +20,7 @@ CREATE TABLE dish
     restaurant_id INTEGER            NOT NULL,
     FOREIGN KEY (restaurant_id) REFERENCES restaurant (id) ON DELETE CASCADE
 );
-CREATE UNIQUE INDEX dish_unique_restaurant_title_idx ON dish (restaurant_id, title);
+CREATE UNIQUE INDEX menu_item_unique_restaurant_title_idx ON menu_item (restaurant_id, title);
 
 CREATE TABLE users
 (

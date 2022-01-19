@@ -9,13 +9,13 @@ import java.time.LocalDate;
 @Value
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-public class DishTo extends BaseTo {
+public class MenuItemTo extends BaseTo {
     String title;
     int price;
     LocalDate localDate;
     Integer restaurantId;
 
-    public DishTo(Integer id, String title, int price, LocalDate localDate, Integer restaurantId) {
+    public MenuItemTo(Integer id, String title, int price, LocalDate localDate, Integer restaurantId) {
         super(id);
         this.title = title;
         this.price = price;

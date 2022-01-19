@@ -34,7 +34,7 @@ public class Restaurant extends BaseEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     @Fetch(value = FetchMode.SUBSELECT)
-    private List<Dish> menu;
+    private List<MenuItem> menu;
 
     @OnDelete(action = OnDeleteAction.CASCADE)
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
@@ -50,7 +50,7 @@ public class Restaurant extends BaseEntity {
         this.title = title;
     }
 
-    public Restaurant(Integer id, String title, List<Dish> menu, List<Vote> votes) {
+    public Restaurant(Integer id, String title, List<MenuItem> menu, List<Vote> votes) {
         super(id);
         this.title = title;
         this.menu = menu;
