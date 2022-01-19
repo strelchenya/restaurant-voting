@@ -13,7 +13,8 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public interface DishRepository extends BaseRepository<Dish> {
 
-    Optional<Dish> getByIdAndRestaurant_Id(int id, int restaurantId);
+    @Query("SELECT d FROM Dish d WHERE d.id=:id")
+    Optional<Dish> getById(int id);
 
     @Query("SELECT d from Dish d WHERE d.restaurant.id=:restaurantId AND d.localDate = :localDate ORDER BY d.title ASC")
     List<Dish> getMenuByDate(int restaurantId, LocalDate localDate);

@@ -2,7 +2,10 @@ package com.strelchenya.restaurantvoting.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.strelchenya.restaurantvoting.util.validation.NoHtml;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.OnDelete;
@@ -27,10 +30,10 @@ public class Restaurant extends BaseEntity {
     @NoHtml
     private String title;
 
+    @JsonManagedReference
     @OnDelete(action = OnDeleteAction.CASCADE)
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     @Fetch(value = FetchMode.SUBSELECT)
-    @JsonManagedReference(value = "restaurantDish")
     private List<Dish> menu;
 
     @OnDelete(action = OnDeleteAction.CASCADE)

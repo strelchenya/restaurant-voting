@@ -36,10 +36,10 @@ public class Dish extends BaseEntity {
     @NotNull
     private LocalDate localDate;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonBackReference(value = "restaurantDish")
     private Restaurant restaurant;
 
     public Dish(Integer id, String title, int price, LocalDate localDate) {

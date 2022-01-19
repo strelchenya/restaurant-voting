@@ -1,7 +1,9 @@
 package com.strelchenya.restaurantvoting.web.dish;
 
+import com.strelchenya.restaurantvoting.error.NotFoundException;
 import com.strelchenya.restaurantvoting.model.Dish;
-import com.strelchenya.restaurantvoting.service.DishService;
+import com.strelchenya.restaurantvoting.repository.DishRepository;
+import com.strelchenya.restaurantvoting.repository.RestaurantRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -9,14 +11,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
 
-import static com.strelchenya.restaurantvoting.util.validation.ValidationUtil.assureIdConsistent;
-import static com.strelchenya.restaurantvoting.util.validation.ValidationUtil.checkNew;
+import static com.strelchenya.restaurantvoting.util.validation.ValidationUtil.*;
 import static com.strelchenya.restaurantvoting.web.restaurant.AdminRestaurantController.ADMIN_RESTAURANT_REST_URL;
 
 @Slf4j
@@ -27,15 +29,18 @@ import static com.strelchenya.restaurantvoting.web.restaurant.AdminRestaurantCon
 public class AdminDishController {
     public static final String DISHES_REST_URL = "/{restaurantId}/dishes";
 
-    private final DishService dishService;
+    private final DishRepository dishRepository;
+    private final RestaurantRepository restaurantRepository;
 
     @Operation(summary = "Creating a dish", description = "Creating a dish for a restaurant.")
     @PostMapping(value = DISHES_REST_URL, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Dish> create(@Valid @RequestBody Dish dish, @PathVariable int restaurantId) {
+        Assert.notNull(dish, "dish must not be null!");
         log.info("create dish {} for restaurant {}", dish, restaurantId);
         checkNew(dish);
 
-        Dish created = dishService.create(dish, restaurantId);
+        dish.setRestaurant(restaurantRepository.findById(restaurantId).orElse(null));
+        Dish created = dishRepository.save(dish);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(ADMIN_RESTAURANT_REST_URL + DISHES_REST_URL + "/{id}")
                 .buildAndExpand(restaurantId, created.getId()).toUri();
@@ -46,9 +51,12 @@ public class AdminDishController {
     @PutMapping(value = DISHES_REST_URL + "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@Valid @RequestBody Dish dish, @PathVariable int id, @PathVariable int restaurantId) {
+        Assert.notNull(dish, "dish must not be null!");
         log.info("update dish {}, dish id {} for restaurant {}", dish, id, restaurantId);
         assureIdConsistent(dish, id);
-        dishService.update(dish, id, restaurantId);
+        dish.setRestaurant(restaurantRepository.findById(restaurantId)
+                .orElseThrow(() -> new NotFoundException("not found restaurant " + restaurantId)));
+        checkNotFoundWithId(dishRepository.save(dish), id);
     }
 
     @Operation(summary = "Deleting a dish", description = "Deleting a dish in a specific restaurant.")
@@ -56,6 +64,6 @@ public class AdminDishController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int restaurantId, @PathVariable int id) {
         log.info("delete dish {} for restaurant {}", id, restaurantId);
-        dishService.delete(id, restaurantId);
+        checkNotFoundWithId(dishRepository.delete(id, restaurantId) != 0, id);
     }
 }

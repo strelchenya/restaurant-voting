@@ -1,6 +1,7 @@
 package com.strelchenya.restaurantvoting.web;
 
-import com.strelchenya.restaurantvoting.service.DishService;
+import com.strelchenya.restaurantvoting.repository.DishRepository;
+import com.strelchenya.restaurantvoting.repository.RestaurantRepository;
 import com.strelchenya.restaurantvoting.service.RestaurantService;
 import com.strelchenya.restaurantvoting.service.VoteService;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,12 +21,14 @@ import org.springframework.transaction.annotation.Transactional;
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 public abstract class AbstractControllerTest {
+    @Autowired
+    protected DishRepository dishRepository;
+
+    @Autowired
+    protected RestaurantRepository restaurantRepository;
 
     @Autowired
     protected RestaurantService restaurantService;
-
-    @Autowired
-    protected DishService dishService;
 
     @Autowired
     protected VoteService voteService;

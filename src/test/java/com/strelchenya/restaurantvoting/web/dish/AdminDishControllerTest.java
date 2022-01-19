@@ -1,6 +1,5 @@
 package com.strelchenya.restaurantvoting.web.dish;
 
-import com.strelchenya.restaurantvoting.error.NotFoundException;
 import com.strelchenya.restaurantvoting.model.Dish;
 import com.strelchenya.restaurantvoting.util.JsonUtil;
 import com.strelchenya.restaurantvoting.web.AbstractControllerTest;
@@ -14,9 +13,7 @@ import static com.strelchenya.restaurantvoting.web.TestUtil.userHttpBasic;
 import static com.strelchenya.restaurantvoting.web.dish.DishTestData.*;
 import static com.strelchenya.restaurantvoting.web.restaurant.RestaurantTestData.NOT_FOUND_RESTAURANT;
 import static com.strelchenya.restaurantvoting.web.restaurant.RestaurantTestData.RESTAURANT_ID_1;
-import static com.strelchenya.restaurantvoting.web.user.UserTestData.ADMIN_ID;
 import static com.strelchenya.restaurantvoting.web.user.UserTestData.admin;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -31,8 +28,6 @@ class AdminDishControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(admin)))
                 .andExpect(status().isNoContent())
                 .andDo(print());
-
-        assertThrows(NotFoundException.class, () -> dishService.getById(DISH_ID_1, ADMIN_ID));
     }
 
     @Test
@@ -58,7 +53,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
         int newId = created.id();
         newDish.setId(newId);
         DISH_MATCHER.assertMatch(created, newDish);
-        DISH_MATCHER.assertMatch(dishService.getById(newId, RESTAURANT_ID_1), newDish);
+        DISH_MATCHER.assertMatch(dishRepository.getById(newId).get(), newDish);
     }
 
     @Test
@@ -86,7 +81,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
 
     @Test
     void update() throws Exception {
-        Dish updatedDish = dishService.getById(DISH_ID_1, RESTAURANT_ID_1);
+        Dish updatedDish = dishRepository.getById(DISH_ID_1).get();
         updatedDish.setPrice(999);
         perform(MockMvcRequestBuilders.put(ADMIN_RESTAURANT_REST_URL + RESTAURANT_ID_1 + DISHES_REST_URL + DISH_ID_1)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -98,7 +93,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
 
     @Test
     void updateNotFound() throws Exception {
-        Dish updatedDish = dishService.getById(DISH_ID_1, RESTAURANT_ID_1);
+        Dish updatedDish = dishRepository.getById(DISH_ID_1).get();
         updatedDish.setPrice(999);
         perform(MockMvcRequestBuilders.put(ADMIN_RESTAURANT_REST_URL + RESTAURANT_ID_1 + DISHES_REST_URL + NOT_FOUND_DISH)
                 .contentType(MediaType.APPLICATION_JSON)
