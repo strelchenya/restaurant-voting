@@ -1,5 +1,6 @@
 package com.strelchenya.restaurantvoting.web.restaurant;
 
+import com.strelchenya.restaurantvoting.error.NotFoundException;
 import com.strelchenya.restaurantvoting.model.Restaurant;
 import com.strelchenya.restaurantvoting.repository.RestaurantRepository;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 
 import static com.strelchenya.restaurantvoting.util.validation.ValidationUtil.*;
 import static com.strelchenya.restaurantvoting.web.restaurant.AdminRestaurantController.ADMIN_RESTAURANT_REST_URL;
@@ -28,6 +30,20 @@ public class AdminRestaurantController {
     public static final String ADMIN_RESTAURANT_REST_URL = "/api/v1/admin/restaurants";
 
     private final RestaurantRepository restaurantRepository;
+
+    @Operation(summary = "Get a restaurant", description = "Get a restaurant with all the menu votes of all time.")
+    @GetMapping("/{id}")
+    public Restaurant getById(@PathVariable int id) {
+        log.info("get restaurant by id {}", id);
+        return restaurantRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("not found restaurant by id " + id));
+    }
+
+    @Operation(summary = "Get all restaurants", description = "Get all restaurants sorted by name.")
+    @GetMapping
+    public List<Restaurant> getAll() {
+        return restaurantRepository.findAllByOrderByTitleAsc();
+    }
 
     @Operation(summary = "Creation of a restaurant", description = "Creation of a new restaurant by the administrator.")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)

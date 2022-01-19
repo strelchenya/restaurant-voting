@@ -22,14 +22,16 @@ public class RestaurantTestData {
     public static final Restaurant RESTAURANT_2 = new Restaurant(RESTAURANT_ID_2, "Burger Empire");
     public static final Restaurant RESTAURANT_3 = new Restaurant(RESTAURANT_ID_3, "Eatery");
 
-    public static final RestaurantTo restaurantTo1 = new RestaurantTo(RESTAURANT_ID_1, "Just restaurant",1L);
+    public static final List<Restaurant> allRestaurants = List.of(RESTAURANT_2, RESTAURANT_3, RESTAURANT_1);
+
+    public static final RestaurantTo restaurantTo1 = new RestaurantTo(RESTAURANT_ID_1, "Just restaurant", 1L);
     public static final RestaurantTo restaurantTo2 = new RestaurantTo(RESTAURANT_ID_2, "Burger Empire", 2L);
 
-    public static final RestaurantTo restaurantToDay1 = new RestaurantTo(RESTAURANT_ID_1, "Just restaurant",1L);
+    public static final RestaurantTo restaurantToDay1 = new RestaurantTo(RESTAURANT_ID_1, "Just restaurant", 1L);
     public static final RestaurantTo restaurantToDay2 = new RestaurantTo(RESTAURANT_ID_2, "Burger Empire", 1L);
     public static final List<RestaurantTo> restaurantTos = List.of(restaurantToDay2, restaurantToDay1);
 
-    public static Restaurant getNew(){
+    public static Restaurant getNew() {
         return new Restaurant(null, "New Restaurant");
     }
 }

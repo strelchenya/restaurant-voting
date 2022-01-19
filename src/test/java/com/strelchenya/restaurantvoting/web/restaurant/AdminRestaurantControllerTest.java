@@ -12,11 +12,40 @@ import static com.strelchenya.restaurantvoting.web.TestUtil.userHttpBasic;
 import static com.strelchenya.restaurantvoting.web.restaurant.RestaurantTestData.*;
 import static com.strelchenya.restaurantvoting.web.user.UserTestData.admin;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class AdminRestaurantControllerTest extends AbstractControllerTest {
 
     private static final String ADMIN_RESTAURANT_REST_URL = AdminRestaurantController.ADMIN_RESTAURANT_REST_URL + '/';
+
+    @Test
+    void getById() throws Exception {
+        perform(MockMvcRequestBuilders.get(ADMIN_RESTAURANT_REST_URL + RESTAURANT_ID_2)
+                .with(userHttpBasic(admin)))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(RESTAURANT_MATCHER.contentJson(RESTAURANT_2));
+    }
+
+    @Test
+    void getNotFoundById() throws Exception {
+        perform(MockMvcRequestBuilders.get(ADMIN_RESTAURANT_REST_URL + NOT_FOUND_RESTAURANT)
+                .with(userHttpBasic(admin)))
+                .andExpect(status().isUnprocessableEntity())
+                .andDo(print());
+    }
+
+    @Test
+    void getAllByDate() throws Exception {
+        perform(MockMvcRequestBuilders.get(ADMIN_RESTAURANT_REST_URL)
+                .with(userHttpBasic(admin)))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(RESTAURANT_MATCHER.contentJson(allRestaurants));
+    }
 
     @Test
     void delete() throws Exception {
