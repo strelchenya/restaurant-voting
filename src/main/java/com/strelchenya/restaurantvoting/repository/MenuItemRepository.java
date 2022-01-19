@@ -27,10 +27,9 @@ public interface MenuItemRepository extends BaseRepository<MenuItem> {
     @Query("DELETE FROM MenuItem d WHERE d.id=:id AND d.restaurant.id=:restaurantId")
     int delete(int id, int restaurantId);
 
-    @Query("SELECT new com.strelchenya.restaurantvoting.to.MenuItemTo(d.id, d.title, d.price, d.localDate, r.id) " +
-            "FROM MenuItem d LEFT OUTER JOIN Restaurant r ON d.restaurant.id=r.id " +
+    @Query("SELECT new com.strelchenya.restaurantvoting.to.MenuItemTo(d.id, d.title, d.price, d.localDate, d.restaurant.id) " +
+            "FROM MenuItem d " +
             "WHERE d.localDate=:localDate " +
-            "GROUP BY d.id " +
-            "ORDER BY r.id ASC")
+            "ORDER BY d.restaurant.id ASC")
     List<MenuItemTo> getAllMenusByLocalDate(LocalDate localDate);
 }

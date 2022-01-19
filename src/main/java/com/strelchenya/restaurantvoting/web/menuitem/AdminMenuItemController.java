@@ -36,10 +36,10 @@ public class AdminMenuItemController {
     @PostMapping(value = MENU_ITEMS_REST_URL, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<MenuItem> create(@Valid @RequestBody MenuItem menuItem, @PathVariable int restaurantId) {
         Assert.notNull(menuItem, "menuItem must not be null!");
-        log.info("create menuItem {} for restaurant {}", menuItem, restaurantId);
         checkNew(menuItem);
-
-        menuItem.setRestaurant(restaurantRepository.findById(restaurantId).orElse(null));
+        log.info("create menuItem {} for restaurant {}", menuItem, restaurantId);
+        menuItem.setRestaurant(restaurantRepository.findById(restaurantId)
+                .orElseThrow(() -> new NotFoundException("not found restaurant " + restaurantId)));
         MenuItem created = menuItemRepository.save(menuItem);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(ADMIN_RESTAURANT_REST_URL + MENU_ITEMS_REST_URL + "/{id}")
