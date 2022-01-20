@@ -1,5 +1,7 @@
 package com.strelchenya.restaurantvoting.web.menuitem;
 
+import com.strelchenya.restaurantvoting.View;
+import com.strelchenya.restaurantvoting.error.IllegalRequestDataException;
 import com.strelchenya.restaurantvoting.error.NotFoundException;
 import com.strelchenya.restaurantvoting.model.MenuItem;
 import com.strelchenya.restaurantvoting.repository.MenuItemRepository;
@@ -15,10 +17,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.time.LocalDate;
@@ -43,8 +45,17 @@ public class AdminMenuItemController {
     @GetMapping(value = MENU_ITEMS_REST_URL + "/{id}")
     public MenuItem getById(@PathVariable int id, @PathVariable int restaurantId) {
         log.info("get menu item {} for restaurant {}", id, restaurantId);
-        return menuItemRepository.getById(id)
+
+        MenuItem menuItem = menuItemRepository.getById(id)
                 .orElseThrow(() -> new NotFoundException("not found menu item " + id));
+
+        Integer realRestaurantId = menuItem.getRestaurant().getId();
+        if (realRestaurantId != null && realRestaurantId == restaurantId) {
+            return menuItem;
+        } else {
+            throw new IllegalRequestDataException(
+                    "This restaurant: " + restaurantId + " does not own this menu item: " + id);
+        }
     }
 
     @Operation(summary = "Get all restaurant menu", description = "Get all restaurant menus for all time.")
@@ -72,7 +83,8 @@ public class AdminMenuItemController {
 
     @Operation(summary = "Creating a menuItem", description = "Creating a menuItem for a restaurant.")
     @PostMapping(value = MENU_ITEMS_REST_URL, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<MenuItem> create(@Valid @RequestBody MenuItem menuItem, @PathVariable int restaurantId) {
+    public ResponseEntity<MenuItem> create(@Validated(View.Web.class) @RequestBody MenuItem menuItem,
+                                           @PathVariable int restaurantId) {
         Assert.notNull(menuItem, "menuItem must not be null!");
         checkNew(menuItem);
         log.info("create menuItem {} for restaurant {}", menuItem, restaurantId);
@@ -88,13 +100,19 @@ public class AdminMenuItemController {
     @Operation(summary = "MenuItem update", description = "Renovation of the restaurant menu items.")
     @PutMapping(value = MENU_ITEMS_REST_URL + "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@Valid @RequestBody MenuItem menuItem, @PathVariable int id, @PathVariable int restaurantId) {
+    public void update(@Validated(View.Web.class) @RequestBody MenuItem menuItem, @PathVariable int id,
+                       @PathVariable int restaurantId) {
         Assert.notNull(menuItem, "menuItem must not be null!");
         log.info("update menuItem {}, menuItem id {} for restaurant {}", menuItem, id, restaurantId);
         assureIdConsistent(menuItem, id);
+
+        MenuItem checkMenuItem = getById(id, restaurantId);
+
         menuItem.setRestaurant(restaurantRepository.findById(restaurantId)
                 .orElseThrow(() -> new NotFoundException("not found restaurant " + restaurantId)));
-        checkNotFoundWithId(menuItemRepository.save(menuItem), id);
+        if (!menuItem.equals(checkMenuItem)) {
+            checkNotFoundWithId(menuItemRepository.save(menuItem), id);
+        }
     }
 
     @Operation(summary = "Deleting a menu item", description = "Deleting a menu item in a specific restaurant.")

@@ -30,9 +30,9 @@ public class MenuItemTestData {
     public static final MenuItem MENU_ITEM_8 = new MenuItem(8, "Croque monsieur", 980, date1);
     public static final MenuItem MENU_ITEM_9 = new MenuItem(9, "Boeuf bourguignon", 4423, date1);
     public static final MenuItem MENU_ITEM_10 = new MenuItem(10, "Cassoulet", 332, date2);
-    public static final MenuItem MENU_ITEM_11 = new MenuItem(11, "Coca-Cola", 75, date2);
+    public static final MenuItem MENU_ITEM_11 = new MenuItem(11, "Coca-Cola", 755, date2);
     public static final MenuItem MENU_ITEM_12 = new MenuItem(12, "Lamb shank navarin", 121, date2);
-    public static final MenuItem MENU_ITEM_13 = new MenuItem(13, "Hazelnut dacquoise", 99, date2);
+    public static final MenuItem MENU_ITEM_13 = new MenuItem(13, "Hazelnut dacquoise", 999, date2);
     public static final MenuItem MENU_ITEM_14 = new MenuItem(14, "Frangipane tart", 1292, date2);
     public static final MenuItem MENU_ITEM_15 = new MenuItem(15, "Souffle", 519, date2);
     public static final MenuItem MENU_ITEM_16 = new MenuItem(16, "Paris-brest", 1200, date2);
@@ -54,9 +54,9 @@ public class MenuItemTestData {
     public static final MenuItemTo MENU_ITEM_TO_8 = new MenuItemTo(8, "Croque monsieur", 980, date1, 3);
     public static final MenuItemTo MENU_ITEM_TO_9 = new MenuItemTo(9, "Boeuf bourguignon", 4423, date1, 3);
     public static final MenuItemTo MENU_ITEM_TO_10 = new MenuItemTo(10, "Cassoulet", 332, date2, 1);
-    public static final MenuItemTo MENU_ITEM_TO_11 = new MenuItemTo(11, "Coca-Cola", 75, date2, 1);
+    public static final MenuItemTo MENU_ITEM_TO_11 = new MenuItemTo(11, "Coca-Cola", 755, date2, 1);
     public static final MenuItemTo MENU_ITEM_TO_12 = new MenuItemTo(12, "Lamb shank navarin", 121, date2, 1);
-    public static final MenuItemTo MENU_ITEM_TO_13 = new MenuItemTo(13, "Hazelnut dacquoise", 99, date2, 2);
+    public static final MenuItemTo MENU_ITEM_TO_13 = new MenuItemTo(13, "Hazelnut dacquoise", 999, date2, 2);
     public static final MenuItemTo MENU_ITEM_TO_14 = new MenuItemTo(14, "Frangipane tart", 1292, date2, 2);
     public static final MenuItemTo MENU_ITEM_TO_15 = new MenuItemTo(15, "Souffle", 519, date2, 2);
     public static final MenuItemTo MENU_ITEM_TO_16 = new MenuItemTo(16, "Paris-brest", 1200, date2, 3);

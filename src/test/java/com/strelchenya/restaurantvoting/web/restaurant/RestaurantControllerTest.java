@@ -38,7 +38,7 @@ class RestaurantControllerTest extends AbstractControllerTest {
     @Test
     void getByIdAndLocalDate() throws Exception {
         perform(MockMvcRequestBuilders.get(RESTAURANTS_REST_URL + RESTAURANT_ID_2 + "/by")
-                .param("local-date", "2021-12-12")
+                .param("date", "2021-12-12")
                 .with(userHttpBasic(user)))
                 .andExpect(status().isOk())
                 .andDo(print())
@@ -49,16 +49,16 @@ class RestaurantControllerTest extends AbstractControllerTest {
     @Test
     void getNotFoundByIdAndLocalDate() throws Exception {
         perform(MockMvcRequestBuilders.get(RESTAURANTS_REST_URL + RESTAURANT_ID_2 + "/by")
-                .param("local-date", "2000-12-12")
+                .param("date", "2000-12-12")
                 .with(userHttpBasic(user)))
-                .andExpect(status().isOk())
+                .andExpect(status().isUnprocessableEntity())
                 .andDo(print());
     }
 
     @Test
     void getAllByDate() throws Exception {
         perform(MockMvcRequestBuilders.get(RESTAURANTS_REST_URL + "/by")
-                .param("local-date", "2021-12-12")
+                .param("date", "2021-12-12")
                 .with(userHttpBasic(user)))
                 .andExpect(status().isOk())
                 .andDo(print())
@@ -69,7 +69,7 @@ class RestaurantControllerTest extends AbstractControllerTest {
     @Test
     void getAllByInvalidDate() throws Exception {
         perform(MockMvcRequestBuilders.get(RESTAURANTS_REST_URL + "/by")
-                .param("local-date", "2021")
+                .param("date", "2021")
                 .with(userHttpBasic(user)))
                 .andExpect(status().isBadRequest())
                 .andDo(print());
@@ -78,7 +78,7 @@ class RestaurantControllerTest extends AbstractControllerTest {
     @Test
     void getAllByNotFoundDate() throws Exception {
         perform(MockMvcRequestBuilders.get(RESTAURANTS_REST_URL + "/by")
-                .param("local-date", "1999-12-12")
+                .param("date", "1999-12-12")
                 .with(userHttpBasic(user)))
                 .andExpect(status().isOk())
                 .andDo(print());

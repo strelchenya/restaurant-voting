@@ -20,7 +20,7 @@ import java.util.List;
 @RequestMapping(value = RestaurantController.RESTAURANTS_REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "User Restaurant Controller", description = "Getting a restaurant by a user with menu votes.")
 public class RestaurantController {
-    public static final String RESTAURANTS_REST_URL = "/api/v1/restaurants";
+    public static final String RESTAURANTS_REST_URL = "/api/v1/restaurants-votes";
 
     private final RestaurantRepository restaurantRepository;
 
@@ -38,7 +38,7 @@ public class RestaurantController {
     )
     @GetMapping("/{id}" + "/by")
     public RestaurantTo getByIdAndLocalDate(@PathVariable int id,
-                                            @NotNull @RequestParam(value = "local-date") LocalDate localDate) {
+                                            @NotNull @RequestParam(value = "date") LocalDate localDate) {
         log.info("get restaurant by id {}, date {}", id, localDate);
         return restaurantRepository.getByIdAndLocalDate(id, localDate)
                 .orElseThrow(() -> new NotFoundException("not found restaurant by id " + id + " date: " + localDate));
@@ -49,7 +49,7 @@ public class RestaurantController {
             description = "Get all restaurants with the number of votes on a given day."
     )
     @GetMapping("/by")
-    public List<RestaurantTo> getAllByDate(@NotNull @RequestParam(value = "local-date") LocalDate localDate) {
+    public List<RestaurantTo> getAllByDate(@NotNull @RequestParam(value = "date") LocalDate localDate) {
         log.info("get all restaurantTos by date {}", localDate);
         return restaurantRepository.getAllByDate(localDate);
     }

@@ -1,6 +1,7 @@
 package com.strelchenya.restaurantvoting.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.strelchenya.restaurantvoting.View;
 import com.strelchenya.restaurantvoting.util.validation.NoHtml;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -42,6 +43,7 @@ public class MenuItem extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @NotNull(groups = View.Persist.class)
     private Restaurant restaurant;
 
     public MenuItem(Integer id, String title, int price, LocalDate localDate) {

@@ -14,21 +14,22 @@ public interface RestaurantRepository extends BaseRepository<Restaurant> {
 
     List<Restaurant> findAllByOrderByTitleAsc();
 
-    @Query("SELECT new com.strelchenya.restaurantvoting.to.RestaurantTo(r.id, r.title, count(v)) " +
+    @Query("SELECT new com.strelchenya.restaurantvoting.to.RestaurantTo(r.id, r.title, count(v.id)) " +
             "FROM Restaurant r LEFT OUTER JOIN Vote v ON r.id = v.restaurant.id " +
             "WHERE v.localDate=:localDate " +
-            "GROUP BY r.id " +
-            "ORDER BY count(v) DESC, r.title ASC")
+            "GROUP BY r.id, r.title " +
+            "ORDER BY count(v.id) DESC, r.title ASC")
     List<RestaurantTo> getAllByDate(LocalDate localDate);
 
-    @Query("SELECT new com.strelchenya.restaurantvoting.to.RestaurantTo(r.id, r.title, count(v)) " +
-            "FROM Restaurant r JOIN FETCH Vote v ON r.id = v.restaurant.id " +
-            "WHERE r.id=:id AND v.localDate=:localDate")
+    @Query("SELECT new com.strelchenya.restaurantvoting.to.RestaurantTo(r.id, r.title, count(v.id)) " +
+            "FROM Restaurant r LEFT OUTER JOIN Vote v ON r.id = v.restaurant.id " +
+            "WHERE r.id=:id AND v.localDate=:localDate " +
+            "GROUP BY r.title")
     Optional<RestaurantTo> getByIdAndLocalDate(int id, LocalDate localDate);
 
-    @Query("SELECT new com.strelchenya.restaurantvoting.to.RestaurantTo(r.id, r.title, count(v)) " +
-            "FROM Restaurant r JOIN FETCH Vote v ON r.id = v.restaurant.id " +
+    @Query("SELECT new com.strelchenya.restaurantvoting.to.RestaurantTo(r.id, r.title, count(v.id)) " +
+            "FROM Restaurant r LEFT OUTER JOIN Vote v ON r.id = v.restaurant.id " +
             "WHERE r.id=:id " +
-            "GROUP BY r.id")
+            "GROUP BY r.title")
     Optional<RestaurantTo> getById(int id);
 }
