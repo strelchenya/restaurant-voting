@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -29,6 +30,7 @@ public class MenuItem extends BaseEntity {
     @NoHtml
     private String title;
 
+    @Range(min = 100)
     @Column(name = "price", nullable = false)
     private int price;
 

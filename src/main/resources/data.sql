@@ -48,4 +48,9 @@ VALUES ('2021-12-12', 211, 'Just Lunch', 1),
        ('2021-12-13', 519, 'Souffle', 2),
        ('2021-12-13', 1200, 'Paris-brest', 3),
        ('2021-12-13', 119, 'Cheesy tuna pasta', 3),
-       ('2021-12-13', 113, 'Tarte tatin', 3);
+       ('2021-12-13', 113, 'Tarte tatin', 3),
+       (CURRENT_DATE, 6434, 'Paella Valenciana', 3),
+       (CURRENT_DATE, 13292, 'Patatas bravas', 3),
+       (CURRENT_DATE, 51439, 'Gazpacho', 3),
+       (CURRENT_DATE, 5456, 'Sushi', 2),
+       (CURRENT_DATE, 2525, 'Yakitori', 2);
