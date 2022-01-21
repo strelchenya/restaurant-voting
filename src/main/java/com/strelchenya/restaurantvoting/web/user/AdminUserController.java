@@ -4,9 +4,6 @@ import com.strelchenya.restaurantvoting.model.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,7 +22,6 @@ import static com.strelchenya.restaurantvoting.util.validation.ValidationUtil.ch
 @RestController
 @RequestMapping(value = AdminUserController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
-@CacheConfig(cacheNames = "users")
 @Tag(name = "Admin Controller", description = "Admin controller for managing users.")
 public class AdminUserController extends AbstractUserController {
 
@@ -55,7 +51,6 @@ public class AdminUserController extends AbstractUserController {
 
     @Operation(summary = "User creation", description = "Creating a new user by admin.")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    @CacheEvict(allEntries = true)
     public ResponseEntity<User> createWithLocation(@Valid @RequestBody User user) {
         log.info("create {}", user);
         checkNew(user);
@@ -69,7 +64,6 @@ public class AdminUserController extends AbstractUserController {
     @Operation(summary = "User update", description = "Update user by admin.")
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @CacheEvict(allEntries = true)
     public void update(@Valid @RequestBody User user, @PathVariable int id) {
         log.info("update {} with id={}", user, id);
         assureIdConsistent(user, id);
@@ -87,7 +81,6 @@ public class AdminUserController extends AbstractUserController {
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
-    @CacheEvict(allEntries = true)
     public void enable(@PathVariable int id, @RequestParam boolean enabled) {
         log.info(enabled ? "enable {}" : "disable {}", id);
         User user = repository.getById(id);

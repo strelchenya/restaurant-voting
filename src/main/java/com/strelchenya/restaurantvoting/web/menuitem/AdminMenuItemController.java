@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -45,10 +46,8 @@ public class AdminMenuItemController {
     @GetMapping(value = MENU_ITEMS_REST_URL + "/{id}")
     public MenuItem getById(@PathVariable int id, @PathVariable int restaurantId) {
         log.info("get menu item {} for restaurant {}", id, restaurantId);
-
         MenuItem menuItem = menuItemRepository.getById(id)
                 .orElseThrow(() -> new NotFoundException("not found menu item " + id));
-
         Integer realRestaurantId = menuItem.getRestaurant().getId();
         if (realRestaurantId != null && realRestaurantId == restaurantId) {
             return menuItem;
@@ -81,6 +80,7 @@ public class AdminMenuItemController {
         return menuItemRepository.getAllMenusByLocalDate(localDate);
     }
 
+    @CacheEvict(allEntries = true)
     @Operation(summary = "Creating a menuItem", description = "Creating a menuItem for a restaurant.")
     @PostMapping(value = MENU_ITEMS_REST_URL, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<MenuItem> create(@Validated(View.Web.class) @RequestBody MenuItem menuItem,
@@ -97,6 +97,7 @@ public class AdminMenuItemController {
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
+    @CacheEvict(allEntries = true)
     @Operation(summary = "MenuItem update", description = "Renovation of the restaurant menu items.")
     @PutMapping(value = MENU_ITEMS_REST_URL + "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -115,6 +116,7 @@ public class AdminMenuItemController {
         }
     }
 
+    @CacheEvict(allEntries = true)
     @Operation(summary = "Deleting a menu item", description = "Deleting a menu item in a specific restaurant.")
     @DeleteMapping(value = MENU_ITEMS_REST_URL + "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
