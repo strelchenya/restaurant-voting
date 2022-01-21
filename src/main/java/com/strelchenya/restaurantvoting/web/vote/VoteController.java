@@ -58,12 +58,11 @@ public class VoteController {
 
     @Operation(summary = "Create voice", description = "Creating a new voice throughout the day.")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<VoteTo> create(@Valid @RequestBody VoteTo voteTo,
-                                         @AuthenticationPrincipal AuthUser authUser) {
+    public ResponseEntity<VoteTo> create(@Valid @RequestBody VoteTo voteTo) {
         Assert.notNull(voteTo, "vote must not be null!");
         checkNew(voteTo);
-        log.info("save {} for userId {}", voteTo, authUser.id());
-        VoteTo created = voteService.create(voteTo, authUser.id());
+        log.info("save {}", voteTo);
+        VoteTo created = voteService.create(voteTo);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(VOTE_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();

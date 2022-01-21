@@ -2,11 +2,13 @@ package com.strelchenya.restaurantvoting.service;
 
 import com.strelchenya.restaurantvoting.error.IllegalRequestDataException;
 import com.strelchenya.restaurantvoting.error.NotFoundException;
+import com.strelchenya.restaurantvoting.model.User;
 import com.strelchenya.restaurantvoting.model.Vote;
 import com.strelchenya.restaurantvoting.repository.RestaurantRepository;
 import com.strelchenya.restaurantvoting.repository.UserRepository;
 import com.strelchenya.restaurantvoting.repository.VoteRepository;
 import com.strelchenya.restaurantvoting.to.VoteTo;
+import com.strelchenya.restaurantvoting.web.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -23,7 +25,7 @@ import static com.strelchenya.restaurantvoting.util.VoteToUtil.asVoteTo;
 @RequiredArgsConstructor
 @Service
 public class VoteService {
-    private static final LocalTime END_TIME_CHANGE_VOTE = LocalTime.of(11, 0);
+    public static final LocalTime END_TIME_CHANGE_VOTE = LocalTime.of(11, 0);
     private final VoteRepository voteRepository;
     private final UserRepository userRepository;
     private final RestaurantRepository restaurantRepository;
@@ -51,10 +53,11 @@ public class VoteService {
     }
 
     @Transactional
-    public VoteTo create(VoteTo voteTo, int userId) {
+    public VoteTo create(VoteTo voteTo) {
         Vote vote = asVote(voteTo);
-        vote.setUser(userRepository.findById(userId).orElseThrow(() ->
-                new NotFoundException("not found user by Id " + userId)));
+        User user = SecurityUtil.authUser();
+        log.info("create vote: {} by user {}", vote, user);
+        vote.setUser(user);
         vote.setRestaurant(restaurantRepository.findById(voteTo.getRestaurantId()).orElseThrow(() ->
                 new NotFoundException("not found restaurant by id " + voteTo.getRestaurantId())));
         log.info("convert VoteTo to Vote: {}", vote);
@@ -65,8 +68,8 @@ public class VoteService {
     public void update(VoteTo voteTo, int id, int userId) {
         if (LocalTime.now().isBefore(END_TIME_CHANGE_VOTE)) {
             LocalDate checkDate = getByIdAndUserId(id, userId).getLocalDate();
-            if (checkDate.equals(voteTo.getLocalDate())) {
-                Vote vote = new Vote(id, voteTo.getLocalDate(), voteTo.getLocalTime());
+            if (checkDate.equals(voteTo.getLocalDate()) && checkDate.equals(LocalDate.now())) {
+                Vote vote = new Vote(id);
                 vote.setUser(userRepository.findById(userId).orElseThrow(() ->
                         new NotFoundException("not found user by Id " + userId)));
                 vote.setRestaurant(restaurantRepository.findById(voteTo.getRestaurantId()).orElseThrow(() ->

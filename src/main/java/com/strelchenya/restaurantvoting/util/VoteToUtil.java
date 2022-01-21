@@ -8,7 +8,7 @@ import lombok.experimental.UtilityClass;
 public class VoteToUtil {
 
     public static Vote asVote(VoteTo voteTo) {
-        return new Vote(voteTo.getId(), voteTo.getLocalDate(), voteTo.getLocalTime(), null, null);
+        return new Vote(voteTo.getId());
     }
 
     public static VoteTo asVoteTo(Vote vote) {

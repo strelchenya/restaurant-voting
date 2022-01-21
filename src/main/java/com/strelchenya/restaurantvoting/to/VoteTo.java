@@ -1,5 +1,6 @@
 package com.strelchenya.restaurantvoting.to;
 
+import com.strelchenya.restaurantvoting.View;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.Value;
@@ -14,10 +15,8 @@ import java.time.LocalTime;
 @ToString(callSuper = true)
 public class VoteTo extends BaseTo{
 
-    @NotNull
     LocalDate localDate;
 
-    @NotNull
     LocalTime localTime;
 
     @Range(min = 0)

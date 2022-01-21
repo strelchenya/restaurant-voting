@@ -26,12 +26,12 @@ public class Vote extends BaseEntity {
     @org.hibernate.annotations.Generated(GenerationTime.ALWAYS)
     @Column(name = "local_date", nullable = false)
     @NotNull
-    private LocalDate localDate;
+    private LocalDate localDate = LocalDate.now();
 
     @org.hibernate.annotations.Generated(GenerationTime.ALWAYS)
     @Column(name = "local_time", nullable = false)
     @NotNull
-    private LocalTime localTime;
+    private LocalTime localTime = LocalTime.now();
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -44,6 +44,10 @@ public class Vote extends BaseEntity {
     @OnDelete(action = CASCADE)
     @NotNull
     private Restaurant restaurant;
+
+    public Vote(Integer id) {
+        super(id);
+    }
 
     public Vote(Integer id, LocalDate localDate, LocalTime localTime) {
         super(id);

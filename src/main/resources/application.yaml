@@ -12,7 +12,7 @@ spring:
     defer-datasource-initialization: true
     hibernate:
        # https://www.baeldung.com/spring-boot-data-sql-and-schema-sql
-      ddl-auto: create
+      ddl-auto: none
     properties:
       #  http://docs.jboss.org/hibernate/orm/5.3/userguide/html_single/Hibernate_User_Guide.html#configurations
       hibernate:

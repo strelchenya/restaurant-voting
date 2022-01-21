@@ -38,8 +38,8 @@ public class VoteTestData {
     public static final VoteTo VOTE_TO_4 = new VoteTo(VOTE_ID_4, date2, LocalTime.of(10, 59), 2);
     public static final VoteTo VOTE_TO_5 = new VoteTo(VOTE_ID_5, LocalDate.now(), LocalTime.of(8, 8), 3);
 
-    public static final List<VoteTo> voteTosUser = List.of(VOTE_TO_1, VOTE_TO_3, VOTE_TO_5);
-    public static final List<VoteTo> voteTosAdmin = List.of(VOTE_TO_2, VOTE_TO_4);
+    public static final List<VoteTo> voteTosUser = List.of(VOTE_TO_5, VOTE_TO_3, VOTE_TO_1);
+    public static final List<VoteTo> voteTosAdmin = List.of(VOTE_TO_4, VOTE_TO_2);
 
     protected static VoteTo getNew() {
         return new VoteTo(null, LocalDate.now(), LocalTime.now(), 1);

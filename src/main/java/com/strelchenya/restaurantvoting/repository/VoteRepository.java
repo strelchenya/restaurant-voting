@@ -13,20 +13,19 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public interface VoteRepository extends BaseRepository<Vote> {
 
-    @Query("SELECT new com.strelchenya.restaurantvoting.to.VoteTo(v.id, v.localDate, v.localTime, r.id) " +
-            "FROM Vote v LEFT OUTER JOIN Restaurant r ON v.restaurant.id=r.id " +
-            "WHERE  v.user.id=:userId " +
-            "GROUP BY v.id " +
-            "ORDER BY v.localDate, v.localTime DESC")
+    @Query("SELECT new com.strelchenya.restaurantvoting.to.VoteTo(v.id, v.localDate, v.localTime, v.restaurant.id) " +
+            "FROM Vote v " +
+            "WHERE v.user.id=:userId " +
+            "ORDER BY v.localDate DESC")
     List<VoteTo> getAll(int userId);
 
-    @Query("SELECT new com.strelchenya.restaurantvoting.to.VoteTo(v.id, v.localDate, v.localTime, r.id) " +
-            "FROM Vote v LEFT OUTER JOIN Restaurant r ON v.restaurant.id=r.id " +
+    @Query("SELECT new com.strelchenya.restaurantvoting.to.VoteTo(v.id, v.localDate, v.localTime, v.restaurant.id) " +
+            "FROM Vote v " +
             "WHERE v.user.id=:userId and v.localDate=:localDate")
     Optional<VoteTo> getByUserIdAndLocalDate(int userId, LocalDate localDate);
 
-    @Query("SELECT new com.strelchenya.restaurantvoting.to.VoteTo(v.id, v.localDate, v.localTime, r.id) " +
-            "FROM Vote v LEFT OUTER JOIN Restaurant r ON v.restaurant.id=r.id " +
+    @Query("SELECT new com.strelchenya.restaurantvoting.to.VoteTo(v.id, v.localDate, v.localTime, v.restaurant.id) " +
+            "FROM Vote v " +
             "WHERE v.id=:id and v.user.id=:userId")
     Optional<VoteTo> getByIdAndUserId(int id, int userId);
 

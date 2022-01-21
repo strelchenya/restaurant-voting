@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import static com.strelchenya.restaurantvoting.service.VoteService.END_TIME_CHANGE_VOTE;
 import static com.strelchenya.restaurantvoting.web.TestUtil.userHttpBasic;
 import static com.strelchenya.restaurantvoting.web.restaurant.RestaurantTestData.NOT_FOUND_RESTAURANT;
 import static com.strelchenya.restaurantvoting.web.restaurant.RestaurantTestData.RESTAURANT_ID_1;
@@ -133,6 +134,26 @@ class VoteControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    void update() throws Exception {
+        VoteTo update = new VoteTo(VOTE_ID_5, LocalDate.now(), LocalTime.now(), RESTAURANT_ID_1);
+        if (LocalTime.now().isBefore(END_TIME_CHANGE_VOTE)) {
+            perform(MockMvcRequestBuilders.put(VOTE_URL + VOTE_ID_5)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(JsonUtil.writeValue(update))
+                    .with(userHttpBasic(user)))
+                    .andDo(print())
+                    .andExpect(status().isNoContent());
+        } else {
+            perform(MockMvcRequestBuilders.put(VOTE_URL + VOTE_ID_5)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(JsonUtil.writeValue(update))
+                    .with(userHttpBasic(user)))
+                    .andDo(print())
+                    .andExpect(status().isUnprocessableEntity());
+        }
+    }
+
+    @Test
     void updateInvalid() throws Exception {
         VoteTo invalid = new VoteTo(NOT_FOUND_VOTE, LocalDate.now(), LocalTime.now(), 3);
         perform(MockMvcRequestBuilders.put(VOTE_URL + VOTE_ID_1)
@@ -167,19 +188,14 @@ class VoteControllerTest extends AbstractControllerTest {
 
     @Test
     void deleteByUserId() throws Exception {
-        if (LocalTime.now().isBefore(LocalTime.of(11, 0))) {
+        if (LocalTime.now().isBefore(END_TIME_CHANGE_VOTE)) {
             perform(MockMvcRequestBuilders.delete(VOTE_URL + VOTE_ID_5)
                     .with(userHttpBasic(user)))
                     .andExpect(status().isNoContent())
                     .andDo(print());
 
             assertThrows(NotFoundException.class, () -> voteService.getByIdAndUserId(VOTE_ID_5, USER_ID));
-        }
-    }
-
-    @Test
-    void deleteByUserIdAfterTime() throws Exception {
-        if (LocalTime.now().isAfter(LocalTime.of(11, 0))) {
+        } else {
             perform(MockMvcRequestBuilders.delete(VOTE_URL + VOTE_ID_5)
                     .with(userHttpBasic(user)))
                     .andExpect(status().isUnprocessableEntity())
