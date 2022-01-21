@@ -20,7 +20,7 @@ import java.util.List;
 @RequestMapping(value = RestaurantController.RESTAURANTS_REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "User Restaurant Controller", description = "Getting a restaurant by a user with menu votes.")
 public class RestaurantController {
-    public static final String RESTAURANTS_REST_URL = "/api/v1/restaurants-votes";
+    public static final String RESTAURANTS_REST_URL = "/api/v1/restaurants/with-votes";
 
     private final RestaurantRepository restaurantRepository;
 
